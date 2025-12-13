@@ -38,7 +38,7 @@ export default async function PathDetailPage({ params }: { params: Promise<{ pat
         return notFound();
     }
     const totalResources = path.resources.length;
-    const completedResources = path.resources.filter(r => r.isCompleted).length;
+    const completedResources = path.resources.filter((r: typeof path.resources[0]) => r.isCompleted).length;
     const completionPercentage = totalResources > 0 ? Math.round((completedResources / totalResources) * 100) : 0;
     const isFullyCompleted = completionPercentage === 100;
 
