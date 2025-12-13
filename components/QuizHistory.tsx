@@ -1,7 +1,6 @@
 import { getQuizHistory } from "@/lib/quiz-actions";
 import { CheckCircle, XCircle, Clock, History, Trophy, Activity, TrendingUp } from "lucide-react";
 import { format } from "date-fns";
-import { QuizAttempt } from "@prisma/client";
 
 export async function QuizHistory({ pathId }: { pathId: string }) {
     const history = await getQuizHistory(pathId);
@@ -11,8 +10,8 @@ export async function QuizHistory({ pathId }: { pathId: string }) {
     }
 
     // Calculate stats
-    const bestScore = Math.max(...history.map((h: QuizAttempt) => h.score));
-    const averageScore = Math.round(history.reduce((acc: number, curr: QuizAttempt) => acc + curr.score, 0) / history.length);
+    const bestScore = Math.max(...history.map(h => h.score));
+    const averageScore = Math.round(history.reduce((acc, curr) => acc + curr.score, 0) / history.length);
     const totalAttempts = history.length;
 
     return (
@@ -76,7 +75,7 @@ export async function QuizHistory({ pathId }: { pathId: string }) {
             <div className="space-y-4">
                 <h3 className="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider pl-1">Recent Activity</h3>
                 <div className="space-y-3">
-                    {history.map((attempt: QuizAttempt) => (
+                    {history.map((attempt) => (
                         <div key={attempt.id} className="group relative bg-white dark:bg-zinc-900/80 p-4 rounded-xl border border-slate-100 dark:border-zinc-800 hover:border-indigo-300 dark:hover:border-indigo-700 transition-all duration-300 hover:shadow-md hover:shadow-indigo-500/5">
                             <div className="flex items-center gap-4">
                                 {/* Icon Status */}
