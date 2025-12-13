@@ -24,8 +24,8 @@ export default async function ExplorePage() {
         }
     });
 
-    const excludedPathIds = new Set(userPaths.map(p => p.id));
-    userPaths.forEach(p => {
+    const excludedPathIds = new Set(userPaths.map((p: typeof userPaths[0]) => p.id));
+    userPaths.forEach((p: typeof userPaths[0]) => {
         if (p.clonedFromId) excludedPathIds.add(p.clonedFromId);
     });
 
