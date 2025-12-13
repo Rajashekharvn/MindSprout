@@ -30,7 +30,7 @@ export default async function DashboardPage() {
   });
 
   // Transform data to include counts
-  const paths = rawPaths.map(path => ({
+  const paths = rawPaths.map((path: typeof rawPaths[0]) => ({
     ...path,
     _count: {
       resources: path.resources.length
