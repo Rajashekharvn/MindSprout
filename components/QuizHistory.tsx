@@ -1,6 +1,7 @@
 import { getQuizHistory } from "@/lib/quiz-actions";
 import { CheckCircle, XCircle, Clock, History, Trophy, Activity, TrendingUp } from "lucide-react";
 import { format } from "date-fns";
+// Quiz history component for displaying attempt analytics
 
 export async function QuizHistory({ pathId }: { pathId: string }) {
     const history = await getQuizHistory(pathId);
