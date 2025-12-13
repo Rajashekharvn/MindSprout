@@ -53,21 +53,21 @@ export default async function Home() {
             <div className="h-12 w-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4 text-indigo-600">
               <Target className="w-6 h-6" />
             </div>
-            <h3 className="font-bold text-xl mb-2">Structured Paths</h3>
+            <h3 className="font-bold text-xl mb-2 text-slate-900">Structured Paths</h3>
             <p className="text-slate-600">Organize scattered tutorials and docs into cohesive learning journeys.</p>
           </div>
           <div className="bg-white p-6 rounded-xl shadow-sm border text-left">
             <div className="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4 text-purple-600">
               <BrainCircuit className="w-6 h-6" />
             </div>
-            <h3 className="font-bold text-xl mb-2">AI Summaries</h3>
+            <h3 className="font-bold text-xl mb-2 text-slate-900">AI Summaries</h3>
             <p className="text-slate-600">Get instant AI-generated summaries for long articles and videos.</p>
           </div>
           <div className="bg-white p-6 rounded-xl shadow-sm border text-left">
             <div className="h-12 w-12 bg-pink-100 rounded-lg flex items-center justify-center mb-4 text-pink-600">
               <Rocket className="w-6 h-6" />
             </div>
-            <h3 className="font-bold text-xl mb-2">Progress Tracking</h3>
+            <h3 className="font-bold text-xl mb-2 text-slate-900">Progress Tracking</h3>
             <p className="text-slate-600">Track your completion status and visualize your growth over time.</p>
           </div>
         </div>
