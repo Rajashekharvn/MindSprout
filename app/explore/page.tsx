@@ -109,7 +109,7 @@ export default async function ExplorePage() {
                                 My Contributions
                             </h2>
                             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                                {myPublicPaths.map((path) => (
+                                {myPublicPaths.map((path: typeof myPublicPaths[0]) => (
                                     <ExploreCard
                                         key={path.id}
                                         path={path}
@@ -136,7 +136,7 @@ export default async function ExplorePage() {
                             </div>
                         ) : (
                             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                                {communityPaths.map((path) => (
+                                {communityPaths.map((path: typeof communityPaths[0]) => (
                                     <ExploreCard
                                         key={path.id}
                                         path={path}
