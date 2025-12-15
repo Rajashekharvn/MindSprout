@@ -76,13 +76,13 @@ export default async function ExplorePage() {
     return (
         <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950">
             <Header />
-            <main className="flex-1 p-8">
+            <main className="flex-1 p-4 md:p-8">
                 <div className="max-w-6xl mx-auto space-y-12">
                     {/* Header Banner */}
-                    <div className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-3xl p-8 text-white shadow-xl overflow-hidden relative">
+                    <div className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-3xl p-6 md:p-8 text-white shadow-xl overflow-hidden relative">
                         <div className="relative z-10">
-                            <h1 className="text-4xl font-bold tracking-tight mb-2">Explore Community Paths</h1>
-                            <p className="text-indigo-100 text-lg max-w-2xl">
+                            <h1 className="text-2xl md:text-4xl font-bold tracking-tight mb-2">Explore Community Paths</h1>
+                            <p className="text-indigo-100 text-base md:text-lg max-w-2xl">
                                 Discover learning paths created by other scholars. Clone them to your dashboard to start your own journey.
                             </p>
                             <div className="flex items-center gap-6 mt-6">

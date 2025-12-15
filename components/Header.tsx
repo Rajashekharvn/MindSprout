@@ -35,16 +35,16 @@ export const Header = async () => {
                 )}
 
                 <ThemeToggle />
-                <Link href="/explore" className="hidden sm:inline-flex">
-                    <Button variant="ghost" className="gap-2">
+                <Link href="/explore">
+                    <Button variant="ghost" className="gap-2 px-2 sm:px-4">
                         <Globe className="h-4 w-4" />
-                        Explore
+                        <span className="hidden sm:inline">Explore</span>
                     </Button>
                 </Link>
-                <Link href="/dashboard" className="hidden sm:inline-flex">
-                    <Button variant="ghost" className="gap-2">
+                <Link href="/dashboard">
+                    <Button variant="ghost" className="gap-2 px-2 sm:px-4">
                         <LayoutDashboard className="h-4 w-4" />
-                        Dashboard
+                        <span className="hidden sm:inline">Dashboard</span>
                     </Button>
                 </Link>
                 <UserButtonWrapper />
