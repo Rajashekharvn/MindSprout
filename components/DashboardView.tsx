@@ -116,7 +116,7 @@ export function DashboardView({ user, paths }: DashboardViewProps) {
                         return (
                             <div className="rounded-xl border border-dashed border-white/10 bg-white/5 backdrop-blur-sm p-8 flex flex-col items-center justify-center text-center min-h-[160px]">
                                 <BookOpen className="w-10 h-10 text-slate-600 mb-3" />
-                                <h3 className="text-base font-medium text-slate-200">No active paths</h3>
+                                <h3 className="text-base font-medium text-slate-600">No active paths</h3>
                                 <p className="text-sm text-slate-500 mb-3">Start a new learning journey today.</p>
                                 <CreatePathDialog />
                             </div>

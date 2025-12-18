@@ -33,7 +33,7 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <div className="fixed inset-0 z-[-1] bg-grid opacity-30 dark:opacity-20 pointer-events-none" />
+          <div className="fixed inset-0 z-[-1] bg-grid opacity-50 dark:opacity-30 pointer-events-none" />
           <div className="fixed inset-0 z-[-1] bg-gradient-to-tr from-indigo-500/5 via-purple-500/5 to-pink-500/5 pointer-events-none" />
           <ThemeProvider
             attribute="class"

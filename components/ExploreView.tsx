@@ -82,7 +82,7 @@ export function ExploreView({ communityPaths, myPublicPaths }: ExploreViewProps)
 
             {/* Tabs & Toolbar */}
             <Tabs defaultValue="community" className="w-full space-y-6">
-                <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
+                <div className="flex flex-col lg:flex-row gap-4 justify-between items-start lg:items-center">
                     <TabsList className="bg-slate-100 dark:bg-zinc-800/50 p-1 h-10 rounded-lg border border-slate-200 dark:border-zinc-700/50 shrink-0">
                         <TabsTrigger
                             value="community"
@@ -109,62 +109,62 @@ export function ExploreView({ communityPaths, myPublicPaths }: ExploreViewProps)
                             </div>
                         </TabsTrigger>
                     </TabsList>
-                </div>
 
-                {/* Filters Toolbar */}
-                <div className="flex flex-col sm:flex-row gap-3 items-center bg-white dark:bg-zinc-900/50 p-3 rounded-lg border border-slate-200 dark:border-zinc-800/50 shadow-sm">
-                    <div className="relative flex-1 w-full">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                        <Input
-                            placeholder="Search paths..."
-                            className="pl-9 bg-slate-50 dark:bg-zinc-900 border-slate-200 dark:border-zinc-800 text-slate-900 dark:text-slate-200 h-9"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
-                    </div>
-                    <div className="flex items-center gap-2 w-full sm:w-auto">
-                        <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                            <SelectTrigger className="w-full sm:w-[140px] h-9 bg-slate-50 dark:bg-zinc-900 border-slate-200 dark:border-zinc-800">
-                                <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
-                                    <Filter className="w-3.5 h-3.5" />
-                                    <span className="truncate">{categoryFilter === "All" ? "Category" : categoryFilter}</span>
-                                </div>
-                            </SelectTrigger>
-                            <SelectContent>
-                                {allCategories.map(cat => (
-                                    <SelectItem key={cat} value={cat}>{cat}</SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
+                    {/* Filters Toolbar - Integrated into Header Row */}
+                    <div className="flex flex-col sm:flex-row gap-3 items-center w-full lg:w-auto flex-1 lg:max-w-3xl">
+                        <div className="relative flex-1 w-full group">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
+                            <Input
+                                placeholder="Search paths..."
+                                className="pl-9 bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800 text-slate-900 dark:text-slate-200 h-10 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500/50 transition-all rounded-xl"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                        </div>
+                        <div className="flex items-center gap-2 w-full sm:w-auto">
+                            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+                                <SelectTrigger className="w-full sm:w-[130px] h-10 bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800 rounded-xl hover:bg-slate-50 dark:hover:bg-zinc-800 transition-colors">
+                                    <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
+                                        <Filter className="w-3.5 h-3.5" />
+                                        <span className="truncate">{categoryFilter === "All" ? "Category" : categoryFilter}</span>
+                                    </div>
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {allCategories.map(cat => (
+                                        <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
 
-                        <Select value={difficultyFilter} onValueChange={setDifficultyFilter}>
-                            <SelectTrigger className="w-full sm:w-[140px] h-9 bg-slate-50 dark:bg-zinc-900 border-slate-200 dark:border-zinc-800">
-                                <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
-                                    <Compass className="w-3.5 h-3.5" />
-                                    <span>{difficultyFilter === "All" ? "Difficulty" : difficultyFilter}</span>
-                                </div>
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="All">All Levels</SelectItem>
-                                <SelectItem value="Beginner">Beginner</SelectItem>
-                                <SelectItem value="Intermediate">Intermediate</SelectItem>
-                                <SelectItem value="Advanced">Advanced</SelectItem>
-                            </SelectContent>
-                        </Select>
+                            <Select value={difficultyFilter} onValueChange={setDifficultyFilter}>
+                                <SelectTrigger className="w-full sm:w-[130px] h-10 bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800 rounded-xl hover:bg-slate-50 dark:hover:bg-zinc-800 transition-colors">
+                                    <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
+                                        <Compass className="w-3.5 h-3.5" />
+                                        <span className="truncate">{difficultyFilter === "All" ? "Difficulty" : difficultyFilter}</span>
+                                    </div>
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="All">All Levels</SelectItem>
+                                    <SelectItem value="Beginner">Beginner</SelectItem>
+                                    <SelectItem value="Intermediate">Intermediate</SelectItem>
+                                    <SelectItem value="Advanced">Advanced</SelectItem>
+                                </SelectContent>
+                            </Select>
 
-                        <Select value={sortBy} onValueChange={setSortBy}>
-                            <SelectTrigger className="w-full sm:w-[140px] h-9 bg-slate-50 dark:bg-zinc-900 border-slate-200 dark:border-zinc-800">
-                                <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
-                                    <ArrowUpDown className="w-3.5 h-3.5" />
-                                    <span>{sortBy === "newest" ? "Newest" : sortBy === "oldest" ? "Oldest" : "Resources"}</span>
-                                </div>
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="newest">Newest First</SelectItem>
-                                <SelectItem value="oldest">Oldest First</SelectItem>
-                                <SelectItem value="most_resources">Most Resources</SelectItem>
-                            </SelectContent>
-                        </Select>
+                            <Select value={sortBy} onValueChange={setSortBy}>
+                                <SelectTrigger className="w-full sm:w-[130px] h-10 bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800 rounded-xl hover:bg-slate-50 dark:hover:bg-zinc-800 transition-colors">
+                                    <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
+                                        <ArrowUpDown className="w-3.5 h-3.5" />
+                                        <span className="truncate">{sortBy === "newest" ? "Newest" : sortBy === "oldest" ? "Oldest" : "Resources"}</span>
+                                    </div>
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="newest">Newest First</SelectItem>
+                                    <SelectItem value="oldest">Oldest First</SelectItem>
+                                    <SelectItem value="most_resources">Most Resources</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
                     </div>
                 </div>
 

@@ -119,7 +119,7 @@ export function PathPreviewDialog({ open, onOpenChange, pathId }: PathPreviewDia
                                         {path.title}
                                     </DialogTitle>
                                     <DialogDescription className="text-slate-600 dark:text-slate-400">
-                                        Curated by <Link href={`/profile/${path.userId}`} className="hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline">{path.user.firstName} {path.user.lastName}</Link> • {path._count.resources} Resources
+                                        Created by <Link href={`/profile/${path.userId}`} className="hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline">{path.user.firstName} {path.user.lastName}</Link> • {path._count.resources} Resources
                                     </DialogDescription>
                                 </div>
                                 <Button
