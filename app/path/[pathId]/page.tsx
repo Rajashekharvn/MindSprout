@@ -17,13 +17,22 @@ export default async function PublicPathPage({ params }: { params: Promise<{ pat
         return notFound();
     }
 
+    // Prepare path data with isCompleted for ReadOnly view
+    const pathWithResources = {
+        ...path,
+        resources: path.resources.map((res: any) => ({
+            ...res,
+            isCompleted: false // Default to false for public/preview
+        }))
+    };
+
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-background transition-colors duration-300">
             <Header />
             <main className="container mx-auto px-4 py-8 max-w-7xl">
                 {/* 1. Hero (Read-only) */}
                 <div className="relative">
-                    <PathHero path={path} isReadOnly={true} />
+                    <PathHero path={pathWithResources} isReadOnly={true} />
                     <div className="absolute top-8 right-6 md:right-auto md:left-full md:ml-4 hidden md:block">
                         {/* Optional: Floating action button for desktop? 
                             Actually, simpler to put it in the flow. 
@@ -38,7 +47,7 @@ export default async function PublicPathPage({ params }: { params: Promise<{ pat
                             <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">Curriculum</h2>
                             <ClonePathButton pathId={path.id} />
                         </div>
-                        <PublicResourceList resources={path.resources} />
+                        <PublicResourceList resources={pathWithResources.resources} />
                     </div>
                 </div>
             </main>
