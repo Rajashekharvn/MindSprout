@@ -17,7 +17,7 @@ import { Plus, Loader2 } from "lucide-react";
 import { useRef, useState } from "react";
 import { showToast } from "@/lib/toast";
 
-export function AddResourceDialog({ pathId }: { pathId: string }) {
+export function AddResourceDialog({ pathId, onAddOptimistic }: { pathId: string; onAddOptimistic?: (resource: any) => void }) {
     const [open, setOpen] = useState(false);
     const [type, setType] = useState("article");
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -25,15 +25,38 @@ export function AddResourceDialog({ pathId }: { pathId: string }) {
 
     const handleSubmit = async (formData: FormData) => {
         setIsSubmitting(true);
+
+        // Optimistic Update
+        const newResource = {
+            id: Math.random().toString(), // Temp ID
+            title: formData.get("title") as string,
+            url: formData.get("url") as string || null,
+            content: formData.get("content") as string || null,
+            type: formData.get("type") as string,
+            isCompleted: false,
+            pathId,
+            createdAt: new Date(),
+        };
+
+        if (onAddOptimistic) {
+            onAddOptimistic(newResource);
+            setOpen(false); // Close immediately for instant feel
+            showToast.success("Resource added!");
+        }
+
         try {
             await addResource(formData);
-            setOpen(false);
+            if (!onAddOptimistic) {
+                setOpen(false);
+                showToast.success("Resource added successfully!");
+            }
             formRef.current?.reset();
             setType("article");
-            showToast.success("Resource added successfully!");
         } catch (error) {
             console.error("Failed to add resource", error);
             showToast.error("Failed to add resource. Please try again.");
+            // In a full implementation, we might want to revert the optimistic add here if possible, 
+            // but usually a page refresh/revalidate will handle syncing.
         } finally {
             setIsSubmitting(false);
         }

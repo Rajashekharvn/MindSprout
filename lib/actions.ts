@@ -62,6 +62,23 @@ export async function addResource(formData: FormData) {
     const content = formData.get("content") as string;
     const type = formData.get("type") as string;
 
+    // Check for duplicates to prevent double-submission
+    const existingResource = await db.resource.findFirst({
+        where: {
+            pathId,
+            title,
+            OR: [
+                { url: url || undefined },
+                { content: content || undefined }
+            ]
+        }
+    });
+
+    if (existingResource) {
+        // Idempotent success: return as if created, but don't duplicate
+        return;
+    }
+
     await db.resource.create({
         data: {
             pathId,

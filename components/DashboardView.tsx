@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { CreatePathDialog } from "@/components/CreatePathDialog";
 import { PathCard } from "@/components/PathCard";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { BookOpen, CheckCircle, Search, Trophy, Zap, LayoutGrid, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { DashboardOverview } from "@/components/DashboardOverview";
 
 interface DashboardViewProps {
     user: {
@@ -36,21 +37,31 @@ export function DashboardView({ user, paths }: DashboardViewProps) {
     }, []);
 
     // Dynamic Categories
-    const categories = ["All", ...Array.from(new Set(paths.map(p => p.category).filter(Boolean))) as string[]];
+    const categories = useMemo(() => {
+        return ["All", ...Array.from(new Set(paths.map(p => p.category).filter(Boolean))) as string[]];
+    }, [paths]);
 
     // Filter Logic
-    const filteredPaths = paths.filter(path => {
-        const matchesSearch = path.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            path.description?.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesCategory = categoryFilter === "All" || path.category === categoryFilter;
-        return matchesSearch && matchesCategory;
-    });
+    const filteredPaths = useMemo(() => {
+        return paths.filter(path => {
+            const matchesSearch = path.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                path.description?.toLowerCase().includes(searchQuery.toLowerCase());
+            const matchesCategory = categoryFilter === "All" || path.category === categoryFilter;
+            return matchesSearch && matchesCategory;
+        });
+    }, [paths, searchQuery, categoryFilter]);
 
     // Stats Calculation
-    const totalPaths = paths.length;
-    const totalResources = paths.reduce((acc, curr) => acc + curr._count.resources, 0);
-    const totalCompleted = paths.reduce((acc, curr) => acc + curr.completedCount, 0);
-    const overallProgress = totalResources > 0 ? Math.round((totalCompleted / totalResources) * 100) : 0;
+    const stats = useMemo(() => {
+        const totalPaths = paths.length;
+        const totalResources = paths.reduce((acc, curr) => acc + curr._count.resources, 0);
+        const totalCompleted = paths.reduce((acc, curr) => acc + curr.completedCount, 0);
+        const overallProgress = totalResources > 0 ? Math.round((totalCompleted / totalResources) * 100) : 0;
+        return { totalPaths, totalResources, totalCompleted, overallProgress };
+    }, [paths]);
+
+    // Destructure stats for cleaner usage
+    const { totalPaths, totalResources, totalCompleted, overallProgress } = stats;
 
     // Most Active Path (First one since we sort by updatedAt desc in server)
     const activePath = paths[0];
@@ -152,36 +163,14 @@ export function DashboardView({ user, paths }: DashboardViewProps) {
                 </div>
 
                 {/* Side: Progress Overview (1 col) */}
-                <div className="bg-white dark:bg-white/5 backdrop-blur-md rounded-xl border border-slate-200 dark:border-white/10 p-5 shadow-lg">
-                    <h3 className="font-semibold text-slate-900 dark:text-slate-200 flex items-center gap-2 mb-4">
-                        <Trophy className="w-4 h-4 text-yellow-500" />
-                        Overview
-                    </h3>
-
-                    <div className="space-y-4">
-                        <div className="flex items-center justify-between">
-                            <span className="text-xs text-slate-500 dark:text-slate-400">Active Paths</span>
-                            <span className="text-2xl font-bold text-slate-900 dark:text-slate-200">{totalPaths}</span>
-                        </div>
-                        <div className="w-full h-px bg-slate-200 dark:bg-white/10" />
-                        <div className="flex items-center justify-between">
-                            <span className="text-xs text-slate-500 dark:text-slate-400">Resources</span>
-                            <span className="text-2xl font-bold text-slate-900 dark:text-slate-200">{totalResources}</span>
-                        </div>
-                        <div className="w-full h-px bg-slate-200 dark:bg-white/10" />
-                        <div className="space-y-2">
-                            <div className="flex items-center justify-between text-xs">
-                                <span className="text-slate-500 dark:text-slate-400">Completion</span>
-                                <span className="font-bold text-indigo-600 dark:text-indigo-400">{overallProgress}%</span>
-                            </div>
-                            <div className="h-2 w-full bg-slate-100 dark:bg-black/20 rounded-full overflow-hidden">
-                                <div
-                                    className="h-full bg-indigo-500 rounded-full transition-all duration-500"
-                                    style={{ width: `${overallProgress}%` }}
-                                />
-                            </div>
-                        </div>
-                    </div>
+                <div className="col-span-1">
+                    <DashboardOverview
+                        totalPaths={totalPaths}
+                        totalResources={totalResources}
+                        totalCompleted={totalCompleted}
+                        totalTopics={categories.length - 1}
+                        overallProgress={overallProgress}
+                    />
                 </div>
             </div>
 

@@ -27,7 +27,7 @@ export default async function PublicPathPage({ params }: { params: Promise<{ pat
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-background transition-colors duration-300">
+        <div className="min-h-screen">
             <Header />
             <main className="container mx-auto px-4 py-8 max-w-7xl">
                 {/* 1. Hero (Read-only) */}

@@ -51,6 +51,9 @@ model LearningPath {
   
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+  @@index([isPublic, category])
 }
 
 model Resource {
@@ -67,6 +70,8 @@ model Resource {
   
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@index([pathId])
 }
 
 model Flashcard {
@@ -108,6 +113,9 @@ model QuizAttempt {
   user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   
   createdAt      DateTime @default(now())
+  
+  @@index([userId])
+  @@index([quizId])
 }
 
 model PathStar {

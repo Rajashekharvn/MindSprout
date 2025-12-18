@@ -42,7 +42,7 @@ type Resource = {
     flashcards?: any[];
 };
 
-export function ResourceCard({ resource, isReadOnly = false }: { resource: Resource, isReadOnly?: boolean }) {
+export function ResourceCard({ resource, isReadOnly = false, onDelete }: { resource: Resource, isReadOnly?: boolean, onDelete?: () => void }) {
     const [isCompleted, setIsCompleted] = useState(resource.isCompleted);
     const [isSummarizing, setIsSummarizing] = useState(false);
 
@@ -266,7 +266,17 @@ export function ResourceCard({ resource, isReadOnly = false }: { resource: Resou
                                                 </DropdownMenuItem>
                                             </>
                                         )}
-                                        <DropdownMenuItem onClick={async () => await deleteResource(resource.id, resource.pathId)} className="text-red-600 focus:text-red-700 focus:bg-red-50 dark:focus:bg-red-950/20">
+                                            // Updated: Use passed onDelete if available, else direct server action
+                                        <DropdownMenuItem
+                                            onClick={async () => {
+                                                if (onDelete) {
+                                                    onDelete();
+                                                } else {
+                                                    await deleteResource(resource.id, resource.pathId);
+                                                }
+                                            }}
+                                            className="text-red-600 focus:text-red-700 focus:bg-red-50 dark:focus:bg-red-950/20"
+                                        >
                                             <Trash2 className="w-4 h-4 mr-2" /> Delete Resource
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>

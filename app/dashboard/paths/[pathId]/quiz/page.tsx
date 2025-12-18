@@ -41,7 +41,7 @@ export default async function QuizPage({ params }: { params: Promise<{ pathId: s
     }
 
     return (
-        <div className="h-screen flex flex-col bg-slate-50 dark:bg-zinc-950 transition-colors duration-300 overflow-hidden">
+        <div className="h-screen flex flex-col transition-colors duration-300 overflow-hidden">
             <Header />
             <main className="flex-1 w-full overflow-hidden animate-in fade-in duration-500">
                 <QuizView pathId={path.id} existingQuiz={path.quiz} />

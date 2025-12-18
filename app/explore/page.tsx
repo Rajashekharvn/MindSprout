@@ -88,7 +88,7 @@ export default async function ExplorePage() {
     }));
 
     return (
-        <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-zinc-950 transition-colors duration-300">
+        <div className="min-h-screen flex flex-col">
             <Header />
             <main className="flex-1 p-4 md:p-8">
                 <ExploreView
