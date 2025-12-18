@@ -33,7 +33,7 @@ export function Features() {
             Everything you need completely
             <span className="text-gradient-premium block mt-5">Reimagined.</span>
           </h2>
-          <p className="text-xl text-slate-400 max-w-2xl mx-auto">
+          <p className="text-xl text-slate-400 max-w-1xl mx-auto">
             A powerful suite of tools designed to help you learn faster, retain more, and master complex topics.
           </p>
         </div>
