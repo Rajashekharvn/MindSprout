@@ -122,6 +122,33 @@ export function DashboardView({ user, paths }: DashboardViewProps) {
                             </div>
                         );
                     })()}
+
+                    {/* Filter & Search Bar */}
+                    <div className="mt-4 flex flex-col sm:flex-row gap-3 items-center bg-white dark:bg-white/5 backdrop-blur-md p-3 rounded-lg border border-slate-200 dark:border-white/10 shadow-lg">
+                        <div className="relative flex-1 w-full">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                            <Input
+                                placeholder="Search your learning paths..."
+                                className="pl-9 bg-slate-100 dark:bg-black/20 border-slate-200 dark:border-white/5 text-slate-900 dark:text-slate-200 placeholder:text-slate-500 focus-visible:ring-indigo-500/50"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                        </div>
+                        {mounted ? (
+                            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+                                <SelectTrigger className="w-full sm:w-[160px] bg-slate-100 dark:bg-black/20 border-slate-200 dark:border-white/5 text-slate-900 dark:text-slate-200">
+                                    <SelectValue placeholder="Category" />
+                                </SelectTrigger>
+                                <SelectContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-slate-200">
+                                    {categories.map(cat => (
+                                        <SelectItem key={cat} value={cat} className="focus:bg-slate-100 dark:focus:bg-white/10 focus:text-slate-900 dark:focus:text-white">{cat}</SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        ) : (
+                            <div className="w-full sm:w-[160px] h-10 bg-white/5 border border-white/10 rounded-md" />
+                        )}
+                    </div>
                 </div>
 
                 {/* Side: Progress Overview (1 col) */}
@@ -158,32 +185,7 @@ export function DashboardView({ user, paths }: DashboardViewProps) {
                 </div>
             </div>
 
-            {/* Filter & Search Bar */}
-            <div className="flex flex-col sm:flex-row gap-3 items-center bg-white dark:bg-white/5 backdrop-blur-md p-3 rounded-lg border border-slate-200 dark:border-white/10 shadow-lg">
-                <div className="relative flex-1 w-full">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                    <Input
-                        placeholder="Search your learning paths..."
-                        className="pl-9 bg-slate-100 dark:bg-black/20 border-slate-200 dark:border-white/5 text-slate-900 dark:text-slate-200 placeholder:text-slate-500 focus-visible:ring-indigo-500/50"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                </div>
-                {mounted ? (
-                    <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                        <SelectTrigger className="w-full sm:w-[160px] bg-slate-100 dark:bg-black/20 border-slate-200 dark:border-white/5 text-slate-900 dark:text-slate-200">
-                            <SelectValue placeholder="Category" />
-                        </SelectTrigger>
-                        <SelectContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-slate-200">
-                            {categories.map(cat => (
-                                <SelectItem key={cat} value={cat} className="focus:bg-slate-100 dark:focus:bg-white/10 focus:text-slate-900 dark:focus:text-white">{cat}</SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-                ) : (
-                    <div className="w-full sm:w-[160px] h-10 bg-white/5 border border-white/10 rounded-md" />
-                )}
-            </div>
+
 
             {/* Content Grid */}
             {filteredPaths.length === 0 ? (
