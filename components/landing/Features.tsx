@@ -31,7 +31,7 @@ export function Features() {
         <div className="mb-24 text-center">
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-6">
             Everything you need completely
-            <span className="text-gradient-premium block mt-2">Reimagined.</span>
+            <span className="text-gradient-premium block mt-5">Reimagined.</span>
           </h2>
           <p className="text-xl text-slate-400 max-w-2xl mx-auto">
             A powerful suite of tools designed to help you learn faster, retain more, and master complex topics.
