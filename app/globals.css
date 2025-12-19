@@ -233,5 +233,5 @@
 }
 
 @utility glass-nav {
-  @apply bg-[#0C0D0D]/70 backdrop-blur-xl border-b border-white/5 supports-[backdrop-filter]:bg-[#0C0D0D]/60;
+  @apply bg-white/70 backdrop-blur-xl border-b border-slate-200 supports-[backdrop-filter]:bg-white/60 dark:bg-[#0C0D0D]/70 dark:border-white/5 dark:supports-[backdrop-filter]:bg-[#0C0D0D]/60;
 }
