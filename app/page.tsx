@@ -17,7 +17,7 @@ export default async function Home() {
     <>
       {/* Background Effects */}
       {/* Background Effects */}
-      <div className="fixed inset-0 z-0 bg-black bg-grid pointer-events-none overflow-hidden" />
+      <div className="fixed inset-0 z-0 bg-white dark:bg-[#0C0D0D] bg-grid pointer-events-none overflow-hidden" />
 
       {/* Fixed Navbar */}
       <Navbar />

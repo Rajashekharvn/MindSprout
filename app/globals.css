@@ -220,11 +220,11 @@
 }
 
 @utility bento-card {
-  @apply relative overflow-hidden rounded-3xl bg-white/5 p-8 hover:bg-white/10 transition-colors duration-500 border border-white/5 backdrop-blur-3xl;
+  @apply relative overflow-hidden rounded-3xl bg-slate-50 dark:bg-white/5 p-8 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors duration-500 border border-slate-200 dark:border-white/5 backdrop-blur-3xl;
 }
 
 .text-gradient-premium {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400;
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-slate-700 to-slate-500 dark:from-white dark:via-slate-200 dark:to-slate-400;
 }
 
 .text-gradient-gold {

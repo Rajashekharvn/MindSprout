@@ -29,11 +29,11 @@ export function Features() {
     <section id="features" className="py-32 px-6">
       <div className="mx-auto max-w-7xl">
         <div className="mb-24 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white mb-6">
             Everything you need completely
             <span className="text-gradient-premium block mt-5">Reimagined.</span>
           </h2>
-          <p className="text-xl text-slate-400 max-w-1xl mx-auto">
+          <p className="text-xl text-slate-600 dark:text-slate-400 max-w-1xl mx-auto">
             A powerful suite of tools designed to help you learn faster, retain more, and master complex topics.
           </p>
         </div>
@@ -45,13 +45,13 @@ export function Features() {
               className="bento-card group flex flex-col justify-between"
             >
               <div>
-                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/5 border border-white/10 text-white group-hover:bg-indigo-500 group-hover:text-white transition-all duration-300 shadow-lg">
+                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 border border-slate-200 text-indigo-600 dark:bg-white/5 dark:border-white/10 dark:text-white group-hover:bg-indigo-500 group-hover:text-white transition-all duration-300 shadow-lg">
                   <f.icon className="h-7 w-7" />
                 </div>
-                <h3 className="text-2xl font-bold mb-4 text-white tracking-tight">
+                <h3 className="text-2xl font-bold mb-4 text-zinc-900 dark:text-white tracking-tight">
                   {f.title}
                 </h3>
-                <p className="text-slate-400 leading-relaxed font-light">
+                <p className="text-slate-600 dark:text-slate-400 leading-relaxed font-light">
                   {f.description}
                 </p>
               </div>

@@ -27,19 +27,19 @@ export function Navbar() {
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-500 shadow-lg shadow-indigo-500/20">
             <BrainCircuit className="h-6 w-6 text-white" />
           </div>
-          <span className="text-xl text-white">MindSprout</span>
+          <span className="text-xl text-zinc-900 dark:text-white">MindSprout</span>
         </div>
 
         {/* Actions */}
         <div className="flex items-center gap-8">
           <Link
             href="/sign-in"
-            className="text-sm font-medium text-slate-400 hover:text-white transition-colors duration-200"
+            className="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white transition-colors duration-200"
           >
             Log in
           </Link>
           <Link href="/sign-up">
-            <Button className="h-10 rounded-full px-6 bg-white text-black hover:bg-slate-200 font-semibold transition-all hover:scale-105 shadow-[0_0_20px_-5px_rgba(255,255,255,0.3)]">
+            <Button className="h-10 rounded-full px-6 bg-black text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-slate-200 font-semibold transition-all hover:scale-105 shadow-[0_0_20px_-5px_rgba(0,0,0,0.1)] dark:shadow-[0_0_20px_-5px_rgba(255,255,255,0.3)]">
               Get Started
             </Button>
           </Link>

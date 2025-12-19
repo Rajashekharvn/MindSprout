@@ -8,7 +8,7 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden pt-0 pb-32 px-6 lg:px-8">
       <div className="mx-auto max-w-4xl text-center relative z-10 font-sans">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-sm text-indigo-300 mb-8 backdrop-blur-md hover:bg-white/10 transition-colors cursor-default">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border-slate-200 text-indigo-600 dark:bg-white/5 dark:border-white/10 dark:text-indigo-300 mb-8 backdrop-blur-md hover:bg-slate-200 dark:hover:bg-white/10 transition-colors cursor-default">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
@@ -16,14 +16,14 @@ export function Hero() {
           v2.0 is live
         </div>
 
-        <h1 className="text-6xl md:text-8xl font-bold tracking-tighter text-white mb-8 leading-[1.1]">
+        <h1 className="text-6xl md:text-8xl font-bold tracking-tighter text-zinc-900 dark:text-white mb-8 leading-[1.1]">
           Learn faster with
           <span className="block mt-2 text-gradient-gold">
             AI-Powered Mastery
           </span>
         </h1>
 
-        <p className="mt-6 max-w-2xl mx-auto text-xl text-slate-400 leading-relaxed font-light">
+        <p className="mt-6 max-w-2xl mx-auto text-xl text-slate-600 dark:text-slate-400 leading-relaxed font-light">
           MindSprout transforms scattered tutorials into structured learning
           paths, summaries, and adaptive practice. Rise above the noise.
         </p>
@@ -32,7 +32,7 @@ export function Hero() {
           <Link href="/sign-up">
             <Button
               size="lg"
-              className="h-14 px-8 rounded-full bg-white text-black hover:bg-slate-200 text-lg font-semibold transition-all hover:scale-105 shadow-[0_0_50px_-10px_rgba(255,255,255,0.3)]"
+              className="h-14 px-8 rounded-full bg-black text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-slate-200 text-lg font-semibold transition-all hover:scale-105 shadow-[0_0_50px_-10px_rgba(0,0,0,0.1)] dark:shadow-[0_0_50px_-10px_rgba(255,255,255,0.3)]"
             >
               Start Learning Free
             </Button>
@@ -41,7 +41,7 @@ export function Hero() {
             <Button
               size="lg"
               variant="outline"
-              className="h-14 px-8 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-white text-lg backdrop-blur-md transition-all hover:scale-105"
+              className="h-14 px-8 rounded-full border border-slate-200 bg-white/50 hover:bg-slate-100 text-zinc-900 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10 dark:text-white text-lg backdrop-blur-md transition-all hover:scale-105"
             >
               Explore Features
             </Button>
