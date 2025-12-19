@@ -287,6 +287,9 @@ export async function togglePathStar(pathId: string) {
         }
     });
 
+    // Fetch path info for revalidation and notification
+    const path = await db.learningPath.findUnique({ where: { id: pathId }, select: { userId: true, title: true } });
+
     if (existingStar) {
         await db.pathStar.delete({
             where: { id: existingStar.id }
@@ -300,7 +303,6 @@ export async function togglePathStar(pathId: string) {
         });
 
         // Notify Path Owner
-        const path = await db.learningPath.findUnique({ where: { id: pathId }, select: { userId: true, title: true } });
         if (path && path.userId !== user.id) {
             await db.notification.create({
                 data: {
@@ -317,6 +319,10 @@ export async function togglePathStar(pathId: string) {
 
     revalidatePath("/explore");
     revalidatePath("/dashboard");
+    revalidatePath(`/path/${pathId}`);
+    if (path) {
+        revalidatePath(`/profile/${path.userId}`);
+    }
 }
 
 export async function getPathDetails(pathId: string) {
@@ -330,10 +336,10 @@ export async function getPathDetails(pathId: string) {
         where: { id: pathId },
         include: {
             user: {
-                select: { firstName: true, lastName: true }
+                select: { firstName: true, lastName: true, id: true }
             },
             resources: {
-                select: { id: true, title: true, type: true, url: true, content: true, summary: true }
+                select: { id: true, title: true, type: true, url: true, content: true, summary: true, isCompleted: true }
             },
             _count: {
                 select: { stars: true, resources: true }
@@ -460,20 +466,30 @@ export async function getUserProfile(userId: string) {
     const publicPaths = await db.learningPath.findMany({
         where: { userId, isPublic: true },
         include: {
-            _count: { select: { resources: true } },
-            user: { select: { firstName: true, lastName: true } }
+            _count: { select: { resources: true, stars: true } },
+            user: { select: { firstName: true, lastName: true } },
+            stars: currentUser ? {
+                where: { userId: currentUser.id },
+                select: { id: true }
+            } : false
         },
         orderBy: { createdAt: "desc" }
     });
+
+    const totalStars = publicPaths.reduce((acc: number, path: any) => acc + (path._count.stars || 0), 0);
 
     return {
         user,
         stats: {
             followers: user._count.followedBy,
             following: user._count.following,
-            paths: user._count.learningPaths
+            paths: user._count.learningPaths,
+            stars: totalStars
         },
-        paths: publicPaths,
+        paths: publicPaths.map((path: any) => ({
+            ...path,
+            isStarred: currentUser ? path.stars.length > 0 : false
+        })),
         isFollowing: currentUser ? user.followedBy.length > 0 : false
     };
 }

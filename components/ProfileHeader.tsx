@@ -21,6 +21,7 @@ interface ProfileHeaderProps {
         followers: number;
         following: number;
         paths: number;
+        stars: number;
     };
     isFollowing: boolean;
     isOwnProfile: boolean;
@@ -118,6 +119,10 @@ export function ProfileHeader({ user, stats, isFollowing: initialIsFollowing, is
                     <div className="text-center md:text-left">
                         <p className="text-2xl font-bold text-slate-900 dark:text-white">{stats.paths}</p>
                         <p className="text-xs uppercase tracking-wide font-semibold text-slate-500 dark:text-slate-400">Public Paths</p>
+                    </div>
+                    <div className="text-center md:text-left">
+                        <p className="text-2xl font-bold text-slate-900 dark:text-white">{stats.stars}</p>
+                        <p className="text-xs uppercase tracking-wide font-semibold text-slate-500 dark:text-slate-400">Total Stars</p>
                     </div>
                 </div>
             </div>

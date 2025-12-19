@@ -62,10 +62,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
                                 {paths.map((path: any) => (
                                     <ExploreCard
                                         key={path.id}
-                                        path={{
-                                            ...path,
-                                            isStarred: false
-                                        }}
+                                        path={path}
                                         hasPath={myPathIds.has(path.id)}
                                         isOwner={isOwnProfile}
                                     />

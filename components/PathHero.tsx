@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { updateLearningPath, deleteLearningPath } from "@/lib/actions";
+import { updateLearningPath, deleteLearningPath, togglePathStar } from "@/lib/actions";
 import { Button } from "@/components/ui/button";
-import { Trash2, Download, Clock, BookOpen, Trophy, ArrowLeft, MoreHorizontal, ChevronRight, LayoutDashboard, Share2 } from "lucide-react";
+import { Trash2, Download, Clock, BookOpen, Trophy, ArrowLeft, MoreHorizontal, ChevronRight, LayoutDashboard, Share2, Star } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { Switch } from "@/components/ui/switch";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { BrainCircuit } from "lucide-react";
+import { toast } from "sonner";
 
 interface PathHeroProps {
     path: {
@@ -38,22 +39,17 @@ interface PathHeroProps {
             firstName: string | null;
             lastName: string | null;
         };
+        _count?: {
+            resources: number;
+            stars?: number;
+        };
+        isStarred?: boolean;
     };
     backLink?: string;
 }
 
 export function PathHero({ path, backLink = "/dashboard", isReadOnly = false }: PathHeroProps & { isReadOnly?: boolean }) {
-    // ... (rest of the component)
-
     // ...
-
-    {
-        isReadOnly && path.user && path.userId && (
-            <p className="text-base font-medium text-slate-500 dark:text-slate-400">
-                Created by <Link href={`/profile/${path.userId}`} className="text-slate-900 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline transition-colors">{path.user.firstName} {path.user.lastName}</Link>
-            </p>
-        )
-    }
     const router = useRouter();
     const [isEditing, setIsEditing] = useState<string | null>(null);
     const [title, setTitle] = useState(path.title);
@@ -63,7 +59,12 @@ export function PathHero({ path, backLink = "/dashboard", isReadOnly = false }: 
     const [isPublic, setIsPublic] = useState(path.isPublic);
     const [isExporting, setIsExporting] = useState(false);
 
+    // Star State
+    const [isStarred, setIsStarred] = useState(path.isStarred || false);
+    const [starCount, setStarCount] = useState(path._count?.stars || 0);
+
     const handleUpdate = async (field: string, value: string | boolean) => {
+        // ... (existing helper)
         if (isReadOnly) return;
         try {
             const res = await updateLearningPath(path.id, { [field]: value });
@@ -81,6 +82,7 @@ export function PathHero({ path, backLink = "/dashboard", isReadOnly = false }: 
     };
 
     const handleVisibilityToggle = async (checked: boolean) => {
+        // ... (existing helper)
         if (isReadOnly) return;
         if (checked && path.resources.length === 0) {
             showToast.error("Add resources to make public");
@@ -101,6 +103,22 @@ export function PathHero({ path, backLink = "/dashboard", isReadOnly = false }: 
             setIsPublic(!checked); // revert
             console.error("Failed to update visibility", error);
             showToast.error("Failed to update");
+        }
+    };
+
+    const handleStar = async () => {
+        // Optimistic update
+        const newIsStarred = !isStarred;
+        setIsStarred(newIsStarred);
+        setStarCount(prev => newIsStarred ? prev + 1 : prev - 1);
+
+        try {
+            await togglePathStar(path.id);
+        } catch (error) {
+            // Revert
+            setIsStarred(!newIsStarred);
+            setStarCount(prev => !newIsStarred ? prev + 1 : prev - 1);
+            showToast.error("Failed to star path");
         }
     };
 
@@ -239,6 +257,22 @@ export function PathHero({ path, backLink = "/dashboard", isReadOnly = false }: 
                 <div className="flex flex-col items-start md:items-end gap-6 w-full md:w-auto">
                     {/* Action Buttons */}
                     <div className="flex items-center gap-2 no-export w-full md:w-auto justify-start md:justify-end">
+                        {/* Star Button (Only in isReadOnly / Public view) */}
+                        {isReadOnly && (
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={handleStar}
+                                className={cn(
+                                    "gap-2 h-9 border-slate-200 dark:border-zinc-800",
+                                    isStarred && "bg-yellow-50 text-yellow-600 border-yellow-200 hover:bg-yellow-100 dark:bg-yellow-900/20 dark:text-yellow-400 dark:border-yellow-900/50"
+                                )}
+                            >
+                                <Star className={cn("w-4 h-4", isStarred && "fill-current")} />
+                                <span>{starCount}</span>
+                            </Button>
+                        )}
+
                         {!isReadOnly && (
                             <div className="flex items-center gap-2 mr-2 px-3 py-1.5 bg-slate-100 dark:bg-zinc-800 rounded-full border border-slate-200 dark:border-zinc-700">
                                 <span className={cn("text-xs font-medium", isPublic ? "text-indigo-600 dark:text-indigo-400" : "text-slate-500")}>
