@@ -41,7 +41,7 @@ export async function updateUserProfile(formData: FormData) {
     const validated = UpdateProfileSchema.safeParse(rawData);
 
     if (!validated.success) {
-        throw new Error(validated.error.errors[0].message);
+        throw new Error(validated.error.issues[0].message);
     }
 
     await db.user.update({
@@ -128,7 +128,7 @@ export async function createLearningPath(formData: FormData) {
     const validatedDAta = CreatePathSchema.safeParse(rawData);
 
     if (!validatedDAta.success) {
-        throw new Error(validatedDAta.error.errors[0].message);
+        throw new Error(validatedDAta.error.issues[0].message);
     }
 
     const { title, description, category, difficulty } = validatedDAta.data;
@@ -183,7 +183,7 @@ export async function addResource(formData: FormData) {
     const validatedData = AddResourceSchema.safeParse(rawData);
 
     if (!validatedData.success) {
-        throw new Error(validatedData.error.errors[0].message);
+        throw new Error(validatedData.error.issues[0].message);
     }
 
     const { pathId, title, url, content, type } = validatedData.data;
