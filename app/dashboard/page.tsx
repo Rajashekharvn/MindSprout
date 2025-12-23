@@ -1,5 +1,4 @@
 import { checkUser } from "@/lib/checkUser";
-import { Header } from "@/components/Header";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { DashboardView } from "@/components/DashboardView";
