@@ -1,10 +1,10 @@
 import { getPathDetails } from "@/lib/actions";
 
-import { PathHero } from "@/components/PathHero";
-import { PublicResourceList } from "@/components/PublicResourceList";
+import { PathHero } from "@/components/paths/PathHero";
+import { PublicResourceList } from "@/components/common/PublicResourceList";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { ClonePathButton } from "@/components/ClonePathButton";
+import { ClonePathButton } from "@/components/paths/ClonePathButton";
 
 export default async function PublicPathPage({ params }: { params: Promise<{ pathId: string }> }) {
     const { pathId } = await params;
@@ -20,7 +20,7 @@ export default async function PublicPathPage({ params }: { params: Promise<{ pat
     // Prepare path data with isCompleted for ReadOnly view
     const pathWithResources = {
         ...path,
-        resources: path.resources.map((res: any) => ({
+        resources: (path as any).resources.map((res: any) => ({
             ...res,
             isCompleted: false // Default to false for public/preview
         }))

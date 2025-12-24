@@ -2,7 +2,7 @@
 
 import useSWR from "swr";
 import { Loader } from "@/components/ui/loader";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
     Card,

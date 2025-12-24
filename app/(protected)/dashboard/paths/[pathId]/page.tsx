@@ -1,6 +1,6 @@
 import { checkUser } from "@/lib/checkUser";
 import { redirect, notFound } from "next/navigation";
-import { PathContent } from "@/components/PathContent";
+import { PathContent } from "@/components/paths/PathContent";
 
 
 export const dynamic = 'force-dynamic';

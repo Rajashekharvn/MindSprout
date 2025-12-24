@@ -1,7 +1,7 @@
 
 import { checkUser } from "@/lib/checkUser";
 import { redirect } from "next/navigation";
-import { ExploreClientWrapper } from "@/components/ExploreClientWrapper";
+import { ExploreClientWrapper } from "@/components/wrappers/ExploreClientWrapper";
 
 export default async function ExplorePage() {
     const user = await checkUser();

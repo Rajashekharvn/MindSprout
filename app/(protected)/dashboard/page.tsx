@@ -1,6 +1,6 @@
 import { checkUser } from "@/lib/checkUser";
 import { redirect } from "next/navigation";
-import { DashboardClientWrapper } from "@/components/DashboardClientWrapper";
+import { DashboardClientWrapper } from "@/components/wrappers/DashboardClientWrapper";
 
 export default async function DashboardPage() {
   const user = await checkUser();

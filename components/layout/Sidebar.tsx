@@ -16,9 +16,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { useAuth } from "@clerk/nextjs";
-import { ThemeToggle } from "@/components/ThemeToggle";
-import { NotificationBell } from "@/components/NotificationBell";
-import { UserButtonWrapper } from "@/components/UserButtonWrapper";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
+import { NotificationBell } from "@/components/layout/NotificationBell";
+import { UserButtonWrapper } from "@/components/layout/UserButtonWrapper";
 
 const routes = [
     {

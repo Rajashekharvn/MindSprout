@@ -71,7 +71,7 @@ export async function GET() {
         });
 
         // Fetch Goals
-        const goals = await (db as any).goal.findMany({
+        const goals = await db.goal.findMany({
             where: { userId: user.id, isCompleted: false },
             orderBy: { createdAt: 'desc' },
             take: 3

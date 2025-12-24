@@ -1,6 +1,6 @@
 "use client";
 
-import { ExploreCard } from "@/components/ExploreCard";
+import { ExploreCard } from "@/components/explore/ExploreCard";
 import { Compass, Globe, LayoutGrid, UserCircle, Search, Filter, ArrowUpDown } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";

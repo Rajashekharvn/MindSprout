@@ -1,7 +1,7 @@
 "use client";
 
 import useSWR from "swr";
-import { DashboardView } from "@/components/DashboardView";
+import { DashboardView } from "@/components/dashboard/DashboardView";
 import { Loader } from "@/components/ui/loader";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());

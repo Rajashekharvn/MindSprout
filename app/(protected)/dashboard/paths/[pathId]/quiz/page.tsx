@@ -3,7 +3,7 @@ import { checkUser } from "@/lib/checkUser";
 import { db } from "@/lib/db";
 
 import { redirect, notFound } from "next/navigation";
-import { QuizView } from "@/components/QuizView";
+import { QuizView } from "@/components/quiz/QuizView";
 
 export default async function QuizPage({ params }: { params: Promise<{ pathId: string }> }) {
     const user = await checkUser();

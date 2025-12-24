@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { User, Calendar, FileText, UserMinus, UserPlus, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { UserListDialog } from "@/components/UserListDialog";
-import { CreatePathDialog } from "@/components/CreatePathDialog";
+import { UserListDialog } from "@/components/common/UserListDialog";
+import { CreatePathDialog } from "@/components/paths/CreatePathDialog";
 import { toggleFollow } from "@/lib/actions";
 import { toast } from "sonner";
 

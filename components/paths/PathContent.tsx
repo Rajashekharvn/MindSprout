@@ -1,11 +1,11 @@
 "use client";
 
 import { useOptimistic } from "react";
-import { ResourceCard } from "@/components/ResourceCard";
-import { AddResourceDialog } from "@/components/AddResourceDialog";
+import { ResourceCard } from "@/components/paths/ResourceCard";
+import { AddResourceDialog } from "@/components/paths/AddResourceDialog";
 import { deleteResource } from "@/lib/actions";
-import { PathHero } from "@/components/PathHero";
-import { QuizHistory } from "@/components/QuizHistory";
+import { PathHero } from "@/components/paths/PathHero";
+import { QuizHistory } from "@/components/quiz/QuizHistory";
 import { Layout, BarChart3 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 

@@ -8,7 +8,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { PathPreviewDialog } from "@/components/PathPreviewDialog";
+import { PathPreviewDialog } from "@/components/paths/PathPreviewDialog";
 import { toast } from "sonner";
 
 interface ExploreCardProps {

@@ -1,6 +1,6 @@
 "use client";
 
-import { ResourceCard } from "@/components/ResourceCard";
+import { ResourceCard } from "@/components/paths/ResourceCard";
 
 interface PublicResourceListProps {
     resources: Array<{

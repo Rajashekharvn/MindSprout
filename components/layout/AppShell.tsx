@@ -1,4 +1,4 @@
-import { ShellLayout } from "@/components/ShellLayout";
+import { ShellLayout } from "@/components/layout/ShellLayout";
 import { checkUser } from "@/lib/checkUser";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";

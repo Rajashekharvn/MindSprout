@@ -1,10 +1,10 @@
 import { getUserProfile } from "@/lib/actions";
 import { notFound, redirect } from "next/navigation";
 import { checkUser } from "@/lib/checkUser";
-import { ProfileHeader } from "@/components/ProfileHeader";
-import { ExploreCard } from "@/components/ExploreCard";
-import { UserListDialog } from "@/components/UserListDialog";
-import { CreatePathDialog } from "@/components/CreatePathDialog";
+import { ProfileHeader } from "@/components/profile/ProfileHeader";
+import { ExploreCard } from "@/components/explore/ExploreCard";
+import { UserListDialog } from "@/components/common/UserListDialog";
+import { CreatePathDialog } from "@/components/paths/CreatePathDialog";
 import { User, Users, FileText, Calendar } from "lucide-react";
 import { db } from "@/lib/db";
 

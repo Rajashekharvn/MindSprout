@@ -1,7 +1,7 @@
 "use client";
 
 import useSWR from "swr";
-import { ExploreView } from "@/components/ExploreView";
+import { ExploreView } from "@/components/explore/ExploreView";
 import { Loader } from "@/components/ui/loader";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
