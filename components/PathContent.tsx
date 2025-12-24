@@ -19,6 +19,7 @@ type Resource = {
     isCompleted: boolean;
     pathId: string;
     summary: string | null;
+    // ...
     quiz?: {
         id: string;
         questions: any;
@@ -52,9 +53,11 @@ type Action =
     | { type: "DELETE"; id: string };
 
 export function PathContent({
-    initialPath
+    initialPath,
+    quizHistory = []  // Default to empty array
 }: {
-    initialPath: Path
+    initialPath: Path;
+    quizHistory?: any[]; // Using any[] for now to match passed data
 }) {
     const [optimisticResources, setOptimisticResources] = useOptimistic(
         initialPath.resources,
@@ -161,7 +164,7 @@ export function PathContent({
                 <TabsContent value="performance" className="focus-visible:outline-none focus-visible:ring-0">
                     {optimisticResources.length > 0 ? (
                         <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
-                            <QuizHistory pathId={initialPath.id} />
+                            <QuizHistory history={quizHistory} />
                         </div>
                     ) : (
                         <div className="flex flex-col items-center justify-center p-12 text-center text-slate-500 bg-white dark:bg-zinc-900 rounded-2xl border border-dashed border-slate-200">

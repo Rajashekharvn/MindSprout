@@ -1,14 +1,21 @@
-import { getQuizHistory } from "@/lib/quiz-actions";
 import { CheckCircle, XCircle, Clock, History, Trophy, Activity, TrendingUp } from "lucide-react";
 import { format } from "date-fns";
+
 // Quiz history component for displaying attempt analytics
 
-export async function QuizHistory({ pathId }: { pathId: string }) {
-    const history = await getQuizHistory(pathId);
+type Attempt = {
+    id: string;
+    score: number;
+    totalQuestions: number;
+    passed: boolean;
+    createdAt: Date;
+};
 
+export function QuizHistory({ history }: { history: Attempt[] }) {
     if (history.length === 0) {
         return null;
     }
+
 
     // Calculate stats
     const bestScore = Math.max(...history.map((h: typeof history[0]) => h.score));
