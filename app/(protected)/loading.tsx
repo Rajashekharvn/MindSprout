@@ -1,9 +1,5 @@
-import { Loader } from "@/components/ui/loader";
+import { DashboardSkeleton } from "@/components/ui/skeletons";
 
 export default function Loading() {
-    return (
-        <div className="w-full h-[calc(100vh-4rem)] flex items-center justify-center">
-            <Loader size="xl" />
-        </div>
-    );
+    return <DashboardSkeleton />;
 }

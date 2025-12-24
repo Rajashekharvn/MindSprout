@@ -2,7 +2,7 @@
 
 import useSWR from "swr";
 import { ExploreView } from "@/components/explore/ExploreView";
-import { Loader } from "@/components/ui/loader";
+import { ExploreSkeleton } from "@/components/ui/skeletons";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -15,11 +15,7 @@ export function ExploreClientWrapper() {
     if (error) return <div className="text-center p-10 text-red-500">Failed to load explore data.</div>;
 
     if (isLoading) {
-        return (
-            <div className="w-full h-[60vh] flex items-center justify-center">
-                <Loader size="xl" />
-            </div>
-        );
+        return <ExploreSkeleton />;
     }
 
     return (

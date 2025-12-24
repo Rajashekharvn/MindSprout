@@ -2,7 +2,7 @@
 
 import useSWR from "swr";
 import { DashboardView } from "@/components/dashboard/DashboardView";
-import { Loader } from "@/components/ui/loader";
+import { DashboardSkeleton } from "@/components/ui/skeletons";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -19,11 +19,7 @@ export function DashboardClientWrapper({ user }: DashboardClientWrapperProps) {
     if (error) return <div className="text-center p-10 text-red-500">Failed to load dashboard data.</div>;
 
     if (isLoading) {
-        return (
-            <div className="w-full h-[60vh] flex items-center justify-center">
-                <Loader size="xl" />
-            </div>
-        );
+        return <DashboardSkeleton />;
     }
 
     return (

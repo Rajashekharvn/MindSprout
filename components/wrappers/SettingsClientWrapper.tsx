@@ -1,7 +1,6 @@
 "use client";
 
 import useSWR from "swr";
-import { Loader } from "@/components/ui/loader";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -15,6 +14,7 @@ import { ProfileForm } from "@/components/settings/ProfileForm";
 import { DeleteAccountSection } from "@/components/settings/DeleteAccountSection";
 import { PrivacySection } from "@/components/settings/PrivacySection";
 import { DataExportSection } from "@/components/settings/DataExportSection";
+import { SettingsSkeleton } from "@/components/ui/skeletons";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -26,15 +26,8 @@ export function SettingsClientWrapper() {
 
     if (error) return <div className="text-center p-10 text-red-500">Failed to load settings.</div>;
 
-    // We can show the shell even while loading, but the forms need data.
-    // To mimic instant shell load, we can render the Layout (Tabs) immediately and just put loaders inside the content areas?
-    // Or just a full loader. For now, full loader is fine as long as the page transition is instant.
     if (isLoading) {
-        return (
-            <div className="w-full h-[60vh] flex items-center justify-center">
-                <Loader size="xl" />
-            </div>
-        );
+        return <SettingsSkeleton />;
     }
 
     return (
