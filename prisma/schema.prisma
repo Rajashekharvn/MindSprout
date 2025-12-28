@@ -17,6 +17,8 @@ model User {
   bio       String?
   isPrivate Boolean  @default(false)
   dailyGoal Int      @default(30) // Minutes
+  xp        Int      @default(0)
+  level     Int      @default(1)
 
 
   createdAt DateTime @default(now())
@@ -35,6 +37,7 @@ model User {
   notes         ResourceNote[]
   tags          ResourceTag[]
   goals         Goal[]
+  achievements  UserAchievement[]
 }
 
 model Goal {
@@ -209,4 +212,31 @@ model ResourceTag {
   createdAt  DateTime @default(now())
 
   @@unique([userId, resourceId, name])
+}
+
+model Achievement {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String
+  icon        String   // Lucide icon name or emoji
+  xpValue     Int
+  condition   String   // "STREAK_7", "PERFECT_SCORE", "NIGHT_OWL", etc.
+  
+  users       UserAchievement[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model UserAchievement {
+  id            String      @id @default(uuid())
+  userId        String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievementId String
+  achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+  
+  earnedAt      DateTime    @default(now())
+
+  @@unique([userId, achievementId])
+  @@index([userId])
 }

@@ -14,9 +14,12 @@ import { AnalyticsDashboard } from "@/components/dashboard/AnalyticsDashboard";
 import { GoalWidget } from "@/components/dashboard/GoalWidget";
 import { Recommendations } from "@/components/dashboard/Recommendations";
 import { useSearchParams, useRouter } from "next/navigation";
+import { TrophyRoom } from "@/components/gamification/TrophyRoom";
+import { Leaderboard } from "@/components/gamification/Leaderboard";
 
 interface DashboardViewProps {
     user: {
+        id: string; // Add ID
         firstName: string | null;
         streakCount: number;
     };
@@ -38,9 +41,14 @@ interface DashboardViewProps {
     };
     goals: any[];
     recommendations: any[];
+    gamification: {
+        achievements: any[];
+        userAchievementIds: string[];
+        leaderboard: any[];
+    };
 }
 
-export function DashboardView({ user, paths, analytics, goals, recommendations }: DashboardViewProps) {
+export function DashboardView({ user, paths, analytics, goals, recommendations, gamification }: DashboardViewProps) {
     const [searchQuery, setSearchQuery] = useState("");
     const [categoryFilter, setCategoryFilter] = useState("All");
     const [mounted, setMounted] = useState(false);
@@ -241,6 +249,34 @@ export function DashboardView({ user, paths, analytics, goals, recommendations }
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <GoalWidget goals={goals} streakCount={user.streakCount} />
                             <Recommendations recommendations={recommendations} />
+                        </div>
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <div className="lg:col-span-2">
+                                <TrophyRoom
+                                    achievements={gamification.achievements}
+                                    userAchievements={gamification.userAchievementIds}
+                                />
+                            </div>
+                            <div>
+                                <Leaderboard
+                                    users={gamification.leaderboard}
+                                    currentUserId={user.id}
+                                />
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <div className="lg:col-span-2">
+                                <TrophyRoom
+                                    achievements={gamification.achievements}
+                                    userAchievements={gamification.userAchievementIds}
+                                />
+                            </div>
+                            <div>
+                                <Leaderboard
+                                    users={gamification.leaderboard}
+                                    currentUserId="current-user-id-placeholder" // We need the actual user ID here, likely from the 'user' prop if available, or passed separately
+                                />
+                            </div>
                         </div>
                     </div>
                 </TabsContent>

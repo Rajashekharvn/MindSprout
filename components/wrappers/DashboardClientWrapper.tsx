@@ -8,9 +8,14 @@ interface DashboardClientWrapperProps {
     analytics: any;
     goals: any[];
     recommendations: any[];
+    gamification: {
+        achievements: any[];
+        userAchievementIds: string[];
+        leaderboard: any[];
+    };
 }
 
-export function DashboardClientWrapper({ user, paths, analytics, goals, recommendations }: DashboardClientWrapperProps) {
+export function DashboardClientWrapper({ user, paths, analytics, goals, recommendations, gamification }: DashboardClientWrapperProps) {
     return (
         <DashboardView
             user={user}
@@ -18,6 +23,7 @@ export function DashboardClientWrapper({ user, paths, analytics, goals, recommen
             analytics={analytics}
             goals={goals}
             recommendations={recommendations}
+            gamification={gamification}
         />
     );
 }

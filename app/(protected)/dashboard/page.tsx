@@ -12,7 +12,7 @@ export default async function DashboardPage() {
   }
 
   // Parallel Data Fetching
-  const [rawPaths, quizAttempts, completedResources, goals, recommendations] = await Promise.all([
+  const [rawPaths, quizAttempts, completedResources, goals, recommendations, allAchievements, userAchievements, leaderboard] = await Promise.all([
     // 1. Fetch Paths
     db.learningPath.findMany({
       where: { userId: user.id },
@@ -58,7 +58,26 @@ export default async function DashboardPage() {
       take: 3
     }),
     // 5. Fetch Recommendations
-    getRecommendations()
+    getRecommendations(),
+    // 6. Fetch All Achievements
+    db.achievement.findMany(),
+    // 7. Fetch User Achievements
+    db.userAchievement.findMany({
+      where: { userId: user.id },
+      select: { achievementId: true }
+    }),
+    // 8. Fetch Leaderboard (Top 10 by XP)
+    db.user.findMany({
+      orderBy: { xp: 'desc' },
+      take: 10,
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        // image: true, // If we add user images later
+        xp: true
+      }
+    })
   ]);
 
   // Transform Data
@@ -86,6 +105,11 @@ export default async function DashboardPage() {
         }}
         goals={goals}
         recommendations={recommendations}
+        gamification={{
+          achievements: allAchievements,
+          userAchievementIds: userAchievements.map(ua => ua.achievementId),
+          leaderboard
+        }}
       />
     </div>
   );
