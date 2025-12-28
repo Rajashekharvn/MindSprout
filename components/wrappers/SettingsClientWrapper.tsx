@@ -14,7 +14,6 @@ import { DeleteAccountSection } from "@/components/settings/DeleteAccountSection
 import { PrivacySection } from "@/components/settings/PrivacySection";
 import { DataExportSection } from "@/components/settings/DataExportSection";
 import { SettingsSkeleton } from "@/components/ui/skeletons";
-import { NotificationSettings } from "@/components/settings/NotificationSettings";
 import { AppearanceSettings } from "@/components/settings/AppearanceSettings";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -41,9 +40,8 @@ export function SettingsClientWrapper() {
             </div>
 
             <Tabs defaultValue="profile" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 bg-slate-100 dark:bg-slate-900 p-1 border border-slate-200 dark:border-slate-800 rounded-lg h-auto">
+                <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 bg-slate-100 dark:bg-slate-900 p-1 border border-slate-200 dark:border-slate-800 rounded-lg h-auto">
                     <TabsTrigger value="profile" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm rounded-md transition-all text-xs md:text-sm">Profile</TabsTrigger>
-                    <TabsTrigger value="notifications" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm rounded-md transition-all text-xs md:text-sm">Notifications</TabsTrigger>
                     <TabsTrigger value="appearance" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm rounded-md transition-all text-xs md:text-sm">Appearance</TabsTrigger>
                     <TabsTrigger value="privacy" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm rounded-md transition-all text-xs md:text-sm">Privacy</TabsTrigger>
                     <TabsTrigger value="account" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm rounded-md transition-all text-xs md:text-sm">Account</TabsTrigger>
@@ -67,21 +65,6 @@ export function SettingsClientWrapper() {
                                     dailyGoal: user.dailyGoal
                                 }}
                             />
-                        </CardContent>
-                    </Card>
-                </TabsContent>
-
-                {/* NOTIFICATIONS TAB */}
-                <TabsContent value="notifications" className="mt-6">
-                    <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-sm">
-                        <CardHeader>
-                            <CardTitle>Notifications</CardTitle>
-                            <CardDescription>
-                                Choose what communications you want to receive.
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <NotificationSettings />
                         </CardContent>
                     </Card>
                 </TabsContent>
