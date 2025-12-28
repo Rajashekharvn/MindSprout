@@ -1,7 +1,6 @@
 "use client";
 
 import useSWR from "swr";
-import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
     Card,
@@ -15,6 +14,8 @@ import { DeleteAccountSection } from "@/components/settings/DeleteAccountSection
 import { PrivacySection } from "@/components/settings/PrivacySection";
 import { DataExportSection } from "@/components/settings/DataExportSection";
 import { SettingsSkeleton } from "@/components/ui/skeletons";
+import { NotificationSettings } from "@/components/settings/NotificationSettings";
+import { AppearanceSettings } from "@/components/settings/AppearanceSettings";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -40,8 +41,9 @@ export function SettingsClientWrapper() {
             </div>
 
             <Tabs defaultValue="profile" className="w-full">
-                <TabsList className="grid w-full grid-cols-4 lg:w-[500px] bg-slate-100 dark:bg-slate-900 p-1 border border-slate-200 dark:border-slate-800 rounded-lg h-auto">
+                <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 bg-slate-100 dark:bg-slate-900 p-1 border border-slate-200 dark:border-slate-800 rounded-lg h-auto">
                     <TabsTrigger value="profile" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm rounded-md transition-all">Profile</TabsTrigger>
+                    <TabsTrigger value="notifications" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm rounded-md transition-all">Notifications</TabsTrigger>
                     <TabsTrigger value="appearance" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm rounded-md transition-all">Appearance</TabsTrigger>
                     <TabsTrigger value="privacy" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm rounded-md transition-all">Privacy</TabsTrigger>
                     <TabsTrigger value="account" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm rounded-md transition-all">Account</TabsTrigger>
@@ -69,6 +71,21 @@ export function SettingsClientWrapper() {
                     </Card>
                 </TabsContent>
 
+                {/* NOTIFICATIONS TAB */}
+                <TabsContent value="notifications" className="mt-6">
+                    <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-sm">
+                        <CardHeader>
+                            <CardTitle>Notifications</CardTitle>
+                            <CardDescription>
+                                Choose what communications you want to receive.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <NotificationSettings />
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+
                 {/* APPEARANCE TAB */}
                 <TabsContent value="appearance" className="mt-6">
                     <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-sm">
@@ -78,16 +95,8 @@ export function SettingsClientWrapper() {
                                 Customize the look and feel of the application.
                             </CardDescription>
                         </CardHeader>
-                        <CardContent className="space-y-4">
-                            <div className="flex items-center justify-between">
-                                <div className="space-y-1">
-                                    <p className="font-medium">Theme</p>
-                                    <p className="text-sm text-muted-foreground">
-                                        Select your preferred color theme.
-                                    </p>
-                                </div>
-                                <ThemeToggle className="h-10 w-10 border-input" />
-                            </div>
+                        <CardContent>
+                            <AppearanceSettings />
                         </CardContent>
                     </Card>
                 </TabsContent>
