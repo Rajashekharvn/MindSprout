@@ -16,6 +16,7 @@ import { DataExportSection } from "@/components/settings/DataExportSection";
 import { SettingsSkeleton } from "@/components/ui/skeletons";
 import { NotificationSettings } from "@/components/settings/NotificationSettings";
 import { AppearanceSettings } from "@/components/settings/AppearanceSettings";
+import { IntegrationsSettings } from "@/components/settings/IntegrationsSettings";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -41,12 +42,13 @@ export function SettingsClientWrapper() {
             </div>
 
             <Tabs defaultValue="profile" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 bg-slate-100 dark:bg-slate-900 p-1 border border-slate-200 dark:border-slate-800 rounded-lg h-auto">
-                    <TabsTrigger value="profile" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm rounded-md transition-all">Profile</TabsTrigger>
-                    <TabsTrigger value="notifications" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm rounded-md transition-all">Notifications</TabsTrigger>
-                    <TabsTrigger value="appearance" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm rounded-md transition-all">Appearance</TabsTrigger>
-                    <TabsTrigger value="privacy" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm rounded-md transition-all">Privacy</TabsTrigger>
-                    <TabsTrigger value="account" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm rounded-md transition-all">Account</TabsTrigger>
+                <TabsList className="grid w-full grid-cols-3 md:grid-cols-6 bg-slate-100 dark:bg-slate-900 p-1 border border-slate-200 dark:border-slate-800 rounded-lg h-auto">
+                    <TabsTrigger value="profile" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm rounded-md transition-all text-xs md:text-sm">Profile</TabsTrigger>
+                    <TabsTrigger value="notifications" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm rounded-md transition-all text-xs md:text-sm">Notifications</TabsTrigger>
+                    <TabsTrigger value="integrations" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm rounded-md transition-all text-xs md:text-sm">Integrations</TabsTrigger>
+                    <TabsTrigger value="appearance" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm rounded-md transition-all text-xs md:text-sm">Appearance</TabsTrigger>
+                    <TabsTrigger value="privacy" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm rounded-md transition-all text-xs md:text-sm">Privacy</TabsTrigger>
+                    <TabsTrigger value="account" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm rounded-md transition-all text-xs md:text-sm">Account</TabsTrigger>
                 </TabsList>
 
                 {/* PROFILE TAB */}
@@ -82,6 +84,21 @@ export function SettingsClientWrapper() {
                         </CardHeader>
                         <CardContent>
                             <NotificationSettings />
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+
+                {/* INTEGRATIONS TAB */}
+                <TabsContent value="integrations" className="mt-6">
+                    <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-sm">
+                        <CardHeader>
+                            <CardTitle>Integrations</CardTitle>
+                            <CardDescription>
+                                Connect your favorite tools to supercharge your learning.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <IntegrationsSettings />
                         </CardContent>
                     </Card>
                 </TabsContent>
