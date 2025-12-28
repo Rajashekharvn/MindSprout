@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { CreatePathDialog } from "@/components/paths/CreatePathDialog";
 import { PathCard } from "@/components/paths/PathCard";
 import { Input } from "@/components/ui/input";
@@ -13,6 +13,7 @@ import { AnalyticsStats } from "@/components/dashboard/AnalyticsStats";
 import { AnalyticsDashboard } from "@/components/dashboard/AnalyticsDashboard";
 import { GoalWidget } from "@/components/dashboard/GoalWidget";
 import { Recommendations } from "@/components/dashboard/Recommendations";
+import { useSearchParams, useRouter } from "next/navigation";
 
 interface DashboardViewProps {
     user: {
@@ -44,9 +45,24 @@ export function DashboardView({ user, paths, analytics, goals, recommendations }
     const [categoryFilter, setCategoryFilter] = useState("All");
     const [mounted, setMounted] = useState(false);
 
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const searchInputRef = useRef<HTMLInputElement>(null);
+
     useEffect(() => {
         setMounted(true);
-    }, []);
+        // Check for focus param
+        if (searchParams.get("focus") === "search") {
+            // Small timeout to ensure render
+            setTimeout(() => {
+                searchInputRef.current?.focus();
+            }, 100);
+
+            // Allow cleaning up the URL without refresh if desired, 
+            // but for now keeping it simple or maybe using replace to remove param
+            // router.replace("/dashboard", { scroll: false });
+        }
+    }, [searchParams]);
 
     // Dynamic Categories
     const categories = useMemo(() => {
@@ -157,7 +173,8 @@ export function DashboardView({ user, paths, analytics, goals, recommendations }
                                 <div className="relative flex-1 w-full">
                                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                                     <Input
-                                        placeholder="Search your learning paths..."
+                                        ref={searchInputRef}
+                                        placeholder="Search your learning paths... (Ctrl+K)"
                                         className="pl-9 bg-slate-100 dark:bg-black/20 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-200 placeholder:text-slate-500 focus-visible:ring-indigo-500/50"
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
