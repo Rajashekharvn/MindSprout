@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -74,10 +75,12 @@ function IntegrationCard({
 }
 
 export function IntegrationsSettings() {
-    const [connections, setConnections] = useState({
+    const { user, isLoaded } = useUser();
+
+    // Simulations for Calendar (until we have real OAuth clients)
+    const [simulatedConnections, setSimulatedConnections] = useState({
         googleCalendar: false,
         outlookCalendar: false,
-        github: false,
         linkedin: false,
     });
 
@@ -86,20 +89,59 @@ export function IntegrationsSettings() {
         autoPostCertifications: true,
     });
 
-    const [loading, setLoading] = useState<string | null>(null);
+    const [loadingAction, setLoadingAction] = useState<string | null>(null);
 
-    const handleConnect = (key: keyof typeof connections) => {
-        setLoading(key);
+    // --- Real GitHub Integration ---
+    const githubAccount = user?.externalAccounts.find((a) => a.provider === "github");
+    const isGithubConnected = !!githubAccount;
+
+    const handleConnectGithub = async () => {
+        if (!user) return;
+        setLoadingAction("github");
+        try {
+            const resource = await user.createExternalAccount({
+                strategy: "oauth_github",
+                redirectUrl: typeof window !== "undefined" ? window.location.href : "/dashboard/settings",
+            });
+
+            if (resource.verification?.externalVerificationRedirectURL) {
+                window.location.href = resource.verification.externalVerificationRedirectURL.toString();
+            }
+        } catch (error: any) {
+            console.error("GitHub Connect Error:", error);
+            toast.error(error.message || "Failed to initiate GitHub connection");
+            setLoadingAction(null);
+        }
+    };
+
+    const handleDisconnectGithub = async () => {
+        if (!githubAccount) return;
+        setLoadingAction("github");
+        try {
+            await githubAccount.destroy();
+            toast.success("Disconnected from GitHub");
+            // Auto-refresh handled by Clerk, but we clear loading
+        } catch (error: any) {
+            toast.error("Failed to disconnect GitHub");
+            console.error(error);
+        } finally {
+            setLoadingAction(null);
+        }
+    };
+    // -------------------------------
+
+    const handleSimulatedConnect = (key: keyof typeof simulatedConnections) => {
+        setLoadingAction(key);
         // Simulate API call
         setTimeout(() => {
-            setConnections(prev => ({ ...prev, [key]: true }));
+            setSimulatedConnections(prev => ({ ...prev, [key]: true }));
             toast.success(`Successfully connected to ${key.replace(/([A-Z])/g, ' $1').trim()}`);
-            setLoading(null);
+            setLoadingAction(null);
         }, 1500);
     };
 
-    const handleDisconnect = (key: keyof typeof connections) => {
-        setConnections(prev => ({ ...prev, [key]: false }));
+    const handleSimulatedDisconnect = (key: keyof typeof simulatedConnections) => {
+        setSimulatedConnections(prev => ({ ...prev, [key]: false }));
         toast.info(`Disconnected from ${key.replace(/([A-Z])/g, ' $1').trim()}`);
     };
 
@@ -107,6 +149,8 @@ export function IntegrationsSettings() {
         setSettings(prev => ({ ...prev, [key]: !prev[key] }));
         toast.success("Preference updated");
     };
+
+    if (!isLoaded) return <div>Loading settings...</div>;
 
     return (
         <div className="space-y-8">
@@ -120,10 +164,10 @@ export function IntegrationsSettings() {
                     title="Google Calendar"
                     description="Automatically add study blocks to your Google Calendar."
                     icon={<Calendar className="h-6 w-6 text-red-500" />}
-                    isConnected={connections.googleCalendar}
-                    onConnect={() => handleConnect("googleCalendar")}
-                    onDisconnect={() => handleDisconnect("googleCalendar")}
-                    isLoading={loading === "googleCalendar"}
+                    isConnected={simulatedConnections.googleCalendar}
+                    onConnect={() => handleSimulatedConnect("googleCalendar")}
+                    onDisconnect={() => handleSimulatedDisconnect("googleCalendar")}
+                    isLoading={loadingAction === "googleCalendar"}
                 >
                     <div className="flex items-center justify-between space-x-2">
                         <Label htmlFor="auto-schedule-google" className="text-sm font-medium">Auto-schedule Study Blocks</Label>
@@ -139,10 +183,10 @@ export function IntegrationsSettings() {
                     title="Outlook Calendar"
                     description="Sync study sessions with your Outlook Calendar."
                     icon={<Calendar className="h-6 w-6 text-blue-500" />}
-                    isConnected={connections.outlookCalendar}
-                    onConnect={() => handleConnect("outlookCalendar")}
-                    onDisconnect={() => handleDisconnect("outlookCalendar")}
-                    isLoading={loading === "outlookCalendar"}
+                    isConnected={simulatedConnections.outlookCalendar}
+                    onConnect={() => handleSimulatedConnect("outlookCalendar")}
+                    onDisconnect={() => handleSimulatedDisconnect("outlookCalendar")}
+                    isLoading={loadingAction === "outlookCalendar"}
                 >
                     <div className="flex items-center justify-between space-x-2">
                         <Label htmlFor="auto-schedule-outlook" className="text-sm font-medium">Auto-schedule Study Blocks</Label>
@@ -165,13 +209,18 @@ export function IntegrationsSettings() {
                     title="GitHub"
                     description="Link your GitHub to verify coding skills and activity."
                     icon={<Github className="h-6 w-6" />}
-                    isConnected={connections.github}
-                    onConnect={() => handleConnect("github")}
-                    onDisconnect={() => handleDisconnect("github")}
-                    isLoading={loading === "github"}
+                    isConnected={isGithubConnected}
+                    onConnect={handleConnectGithub}
+                    onDisconnect={handleDisconnectGithub}
+                    isLoading={loadingAction === "github"}
                 >
                     <div className="flex items-center justify-between space-x-2">
-                        <Label htmlFor="display-badge-github" className="text-sm font-medium">Display Verified Skills Badge</Label>
+                        <div className="space-y-0.5">
+                            <Label htmlFor="display-badge-github" className="text-sm font-medium">Display Verified Skills Badge</Label>
+                            {isGithubConnected && (
+                                <p className="text-xs text-muted-foreground">Connected as {githubAccount?.username || "user"}</p>
+                            )}
+                        </div>
                         <Switch
                             id="display-badge-github"
                             checked={true}
@@ -184,10 +233,10 @@ export function IntegrationsSettings() {
                     title="LinkedIn"
                     description="Auto-post certifications when you complete a path."
                     icon={<Linkedin className="h-6 w-6 text-blue-600" />}
-                    isConnected={connections.linkedin}
-                    onConnect={() => handleConnect("linkedin")}
-                    onDisconnect={() => handleDisconnect("linkedin")}
-                    isLoading={loading === "linkedin"}
+                    isConnected={simulatedConnections.linkedin}
+                    onConnect={() => handleSimulatedConnect("linkedin")}
+                    onDisconnect={() => handleSimulatedDisconnect("linkedin")}
+                    isLoading={loadingAction === "linkedin"}
                 >
                     <div className="flex items-center justify-between space-x-2">
                         <Label htmlFor="auto-post-linkedin" className="text-sm font-medium">Auto-post Certifications</Label>
