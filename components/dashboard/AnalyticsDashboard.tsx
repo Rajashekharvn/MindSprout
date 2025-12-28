@@ -1,12 +1,13 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
     LineChart, Line, PieChart, Pie, Cell, Legend
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface AnalyticsDashboardProps {
     quizAttempts: Array<{
@@ -24,6 +25,15 @@ interface AnalyticsDashboardProps {
 }
 
 export function AnalyticsDashboard({ quizAttempts, completedResources }: AnalyticsDashboardProps) {
+
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        const timer = requestAnimationFrame(() => {
+            setMounted(true);
+        });
+        return () => cancelAnimationFrame(timer);
+    }, []);
 
     // 1. Quiz Performance Over Time
     const quizPerformanceData = useMemo(() => {
@@ -89,31 +99,35 @@ export function AnalyticsDashboard({ quizAttempts, completedResources }: Analyti
                                 <CardDescription>Resources completed over the last 7 days</CardDescription>
                             </CardHeader>
                             <CardContent className="pl-0 pr-6 pb-4">
-                                <ResponsiveContainer width="100%" height={240}>
-                                    <BarChart data={activityData} margin={{ top: 10, right: 0, left: -20, bottom: 0 }}>
-                                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" opacity={0.5} />
-                                        <XAxis
-                                            dataKey="day"
-                                            stroke="#64748B"
-                                            fontSize={11}
-                                            tickLine={false}
-                                            axisLine={false}
-                                            dy={10}
-                                        />
-                                        <YAxis
-                                            stroke="#64748B"
-                                            fontSize={11}
-                                            tickLine={false}
-                                            axisLine={false}
-                                            tickFormatter={(value) => `${value}`}
-                                        />
-                                        <Tooltip
-                                            cursor={{ fill: '#F1F5F9', opacity: 0.4 }}
-                                            contentStyle={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '8px', fontSize: '12px' }}
-                                        />
-                                        <Bar dataKey="completed" fill="#4f46e5" radius={[4, 4, 0, 0]} barSize={32} />
-                                    </BarChart>
-                                </ResponsiveContainer>
+                                {mounted ? (
+                                    <ResponsiveContainer width="100%" height={240}>
+                                        <BarChart data={activityData} margin={{ top: 10, right: 0, left: -20, bottom: 0 }}>
+                                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" opacity={0.5} />
+                                            <XAxis
+                                                dataKey="day"
+                                                stroke="#64748B"
+                                                fontSize={11}
+                                                tickLine={false}
+                                                axisLine={false}
+                                                dy={10}
+                                            />
+                                            <YAxis
+                                                stroke="#64748B"
+                                                fontSize={11}
+                                                tickLine={false}
+                                                axisLine={false}
+                                                tickFormatter={(value) => `${value}`}
+                                            />
+                                            <Tooltip
+                                                cursor={{ fill: '#F1F5F9', opacity: 0.4 }}
+                                                contentStyle={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '8px', fontSize: '12px' }}
+                                            />
+                                            <Bar dataKey="completed" fill="#4f46e5" radius={[4, 4, 0, 0]} barSize={32} />
+                                        </BarChart>
+                                    </ResponsiveContainer>
+                                ) : (
+                                    <Skeleton className="w-full h-[240px] rounded-lg" />
+                                )}
                             </CardContent>
                         </Card>
 
@@ -124,26 +138,30 @@ export function AnalyticsDashboard({ quizAttempts, completedResources }: Analyti
                                 <CardDescription className="text-xs">Distribution by category</CardDescription>
                             </CardHeader>
                             <CardContent className="pb-4">
-                                <ResponsiveContainer width="100%" height={240}>
-                                    <PieChart>
-                                        <Pie
-                                            data={categoryData}
-                                            cx="50%"
-                                            cy="50%"
-                                            innerRadius={60}
-                                            outerRadius={80}
-                                            paddingAngle={4}
-                                            dataKey="value"
-                                            cornerRadius={4}
-                                        >
-                                            {categoryData.map((entry, index) => (
-                                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} strokeWidth={0} />
-                                            ))}
-                                        </Pie>
-                                        <Tooltip contentStyle={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '8px', fontSize: '12px' }} />
-                                        <Legend verticalAlign="middle" align="right" layout="vertical" iconType="circle" wrapperStyle={{ fontSize: '11px' }} />
-                                    </PieChart>
-                                </ResponsiveContainer>
+                                {mounted ? (
+                                    <ResponsiveContainer width="100%" height={240}>
+                                        <PieChart>
+                                            <Pie
+                                                data={categoryData}
+                                                cx="50%"
+                                                cy="50%"
+                                                innerRadius={60}
+                                                outerRadius={80}
+                                                paddingAngle={4}
+                                                dataKey="value"
+                                                cornerRadius={4}
+                                            >
+                                                {categoryData.map((entry, index) => (
+                                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} strokeWidth={0} />
+                                                ))}
+                                            </Pie>
+                                            <Tooltip contentStyle={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '8px', fontSize: '12px' }} />
+                                            <Legend verticalAlign="middle" align="right" layout="vertical" iconType="circle" wrapperStyle={{ fontSize: '11px' }} />
+                                        </PieChart>
+                                    </ResponsiveContainer>
+                                ) : (
+                                    <Skeleton className="w-full h-[240px] rounded-lg" />
+                                )}
                             </CardContent>
                         </Card>
                     </div>
@@ -156,22 +174,26 @@ export function AnalyticsDashboard({ quizAttempts, completedResources }: Analyti
                             <CardDescription className="text-xs">Your last 10 quiz attempts</CardDescription>
                         </CardHeader>
                         <CardContent className="px-6 pb-6">
-                            <ResponsiveContainer width="100%" height={300}>
-                                <LineChart data={quizPerformanceData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" opacity={0.5} />
-                                    <XAxis dataKey="date" stroke="#64748B" fontSize={11} tickLine={false} axisLine={false} dy={10} />
-                                    <YAxis stroke="#64748B" fontSize={11} tickLine={false} axisLine={false} domain={[0, 100]} />
-                                    <Tooltip contentStyle={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '8px', fontSize: '12px' }} />
-                                    <Line
-                                        type="monotone"
-                                        dataKey="score"
-                                        stroke="#4f46e5"
-                                        strokeWidth={2.5}
-                                        dot={{ r: 4, fill: "#4f46e5", strokeWidth: 2, stroke: "#fff" }}
-                                        activeDot={{ r: 6 }}
-                                    />
-                                </LineChart>
-                            </ResponsiveContainer>
+                            {mounted ? (
+                                <ResponsiveContainer width="100%" height={300}>
+                                    <LineChart data={quizPerformanceData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" opacity={0.5} />
+                                        <XAxis dataKey="date" stroke="#64748B" fontSize={11} tickLine={false} axisLine={false} dy={10} />
+                                        <YAxis stroke="#64748B" fontSize={11} tickLine={false} axisLine={false} domain={[0, 100]} />
+                                        <Tooltip contentStyle={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '8px', fontSize: '12px' }} />
+                                        <Line
+                                            type="monotone"
+                                            dataKey="score"
+                                            stroke="#4f46e5"
+                                            strokeWidth={2.5}
+                                            dot={{ r: 4, fill: "#4f46e5", strokeWidth: 2, stroke: "#fff" }}
+                                            activeDot={{ r: 6 }}
+                                        />
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            ) : (
+                                <Skeleton className="w-full h-[300px] rounded-lg" />
+                            )}
                         </CardContent>
                     </Card>
                 </TabsContent>
