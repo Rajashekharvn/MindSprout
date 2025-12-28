@@ -33,12 +33,12 @@ export function AppearanceSettings() {
             <RadioGroup
                 defaultValue={theme}
                 onValueChange={(value) => setTheme(value)}
-                className="grid max-w-md grid-cols-3 gap-8 pt-2"
+                className="grid max-w-2xl grid-cols-3 gap-8 pt-2"
             >
                 <div>
-                    <Label className="[&:has([data-state=checked])>div]:border-indigo-600 cursor-pointer">
+                    <Label className="flex flex-col gap-2 [&:has([data-state=checked])>div]:border-primary cursor-pointer">
                         <RadioGroupItem value="light" className="sr-only" />
-                        <div className="items-center rounded-md border-2 border-muted p-1 hover:border-accent">
+                        <div className="items-center rounded-md border-2 border-muted p-1 hover:border-accent hover:bg-accent transition-all">
                             <div className="space-y-2 rounded-sm bg-[#ecedef] p-2">
                                 <div className="space-y-2 rounded-md bg-white p-2 shadow-sm">
                                     <div className="h-2 w-[80px] rounded-lg bg-[#ecedef]" />
@@ -62,9 +62,9 @@ export function AppearanceSettings() {
                     </Label>
                 </div>
                 <div>
-                    <Label className="[&:has([data-state=checked])>div]:border-indigo-600 cursor-pointer">
+                    <Label className="flex flex-col gap-2 [&:has([data-state=checked])>div]:border-primary cursor-pointer">
                         <RadioGroupItem value="dark" className="sr-only" />
-                        <div className="items-center rounded-md border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground">
+                        <div className="items-center rounded-md border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground transition-all">
                             <div className="space-y-2 rounded-sm bg-slate-950 p-2">
                                 <div className="space-y-2 rounded-md bg-slate-800 p-2 shadow-sm">
                                     <div className="h-2 w-[80px] rounded-lg bg-slate-400" />
@@ -88,9 +88,9 @@ export function AppearanceSettings() {
                     </Label>
                 </div>
                 <div>
-                    <Label className="[&:has([data-state=checked])>div]:border-indigo-600 cursor-pointer">
+                    <Label className="flex flex-col gap-2 [&:has([data-state=checked])>div]:border-primary cursor-pointer">
                         <RadioGroupItem value="system" className="sr-only" />
-                        <div className="items-center rounded-md border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground">
+                        <div className="items-center rounded-md border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground transition-all">
                             <div className="space-y-2 rounded-sm bg-slate-950 p-2">
                                 <div className="space-y-2 rounded-md bg-slate-800 p-2 shadow-sm">
                                     <div className="h-2 w-[80px] rounded-lg bg-slate-400" />
