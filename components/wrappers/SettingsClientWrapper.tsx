@@ -40,10 +40,9 @@ export function SettingsClientWrapper() {
             </div>
 
             <Tabs defaultValue="profile" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 bg-slate-100 dark:bg-slate-900 p-1 border border-slate-200 dark:border-slate-800 rounded-lg h-auto">
+                <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 bg-slate-100 dark:bg-slate-900 p-1 border border-slate-200 dark:border-slate-800 rounded-lg h-auto">
                     <TabsTrigger value="profile" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm rounded-md transition-all text-xs md:text-sm">Profile</TabsTrigger>
                     <TabsTrigger value="appearance" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm rounded-md transition-all text-xs md:text-sm">Appearance</TabsTrigger>
-                    <TabsTrigger value="privacy" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm rounded-md transition-all text-xs md:text-sm">Privacy</TabsTrigger>
                     <TabsTrigger value="account" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm rounded-md transition-all text-xs md:text-sm">Account</TabsTrigger>
                 </TabsList>
 
@@ -84,21 +83,6 @@ export function SettingsClientWrapper() {
                     </Card>
                 </TabsContent>
 
-                {/* PRIVACY TAB */}
-                <TabsContent value="privacy" className="mt-6">
-                    <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-sm">
-                        <CardHeader>
-                            <CardTitle>Privacy</CardTitle>
-                            <CardDescription>
-                                Manage your public visibility and data settings.
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <PrivacySection isPrivate={user.isPrivate} />
-                        </CardContent>
-                    </Card>
-                </TabsContent>
-
                 {/* ACCOUNT TAB */}
                 <TabsContent value="account" className="mt-6">
                     <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-sm">
@@ -109,6 +93,7 @@ export function SettingsClientWrapper() {
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-8">
+                            <PrivacySection isPrivate={user.isPrivate} />
                             <DataExportSection />
                             <DeleteAccountSection />
                         </CardContent>
