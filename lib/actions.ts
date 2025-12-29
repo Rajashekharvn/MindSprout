@@ -385,9 +385,24 @@ export async function toggleResourceCompletion(resourceId: string, isCompleted: 
 
         // Gamification: Award XP and check achievements
         try {
-            await awardXp(user.id, 50); // 50 XP for completing a resource
+            await awardXp(user.id, 5); // 5 XP for completing a resource (updated per user request)
             await checkAchievements(user.id, "RESOURCE_COMPLETED");
             await checkAchievements(user.id, "STREAK_UPDATE");
+
+            // Check for Path Completion
+            // We need to count total resources vs completed for this path
+            const pathResources = await db.resource.findMany({
+                where: { pathId: pathId },
+                select: { isCompleted: true }
+            });
+
+            const allCompleted = pathResources.every(r => r.isCompleted);
+
+            if (allCompleted && pathResources.length > 0) {
+                await awardXp(user.id, 20); // 20 XP for completing the full path
+                // We could check for a PATH_COMPLETED achievement here if we had one
+            }
+
         } catch (err) {
             console.error("Gamification error:", err);
         }

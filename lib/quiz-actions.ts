@@ -50,8 +50,10 @@ export async function saveQuizAttempt(
 
         // Gamification: Award XP and check achievements
         try {
-            const xpEarned = score * 10;
-            await awardXp(user.id, xpEarned);
+            if (passed) {
+                await awardXp(user.id, 20); // 20 XP if passed (>70%)
+            }
+            // Always check achievements (e.g. Perfect Score still relies on actual score field in database)
             await checkAchievements(user.id, "QUIZ_COMPLETED");
         } catch (err) {
             console.error("Gamification error:", err);
