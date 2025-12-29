@@ -57,8 +57,8 @@ export function GoalWidget({ goals: initialGoals, streakCount }: GoalWidgetProps
     };
 
     return (
-        <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-sm flex flex-col hover:shadow-md transition-all">
-            <CardHeader className="pb-4 border-b border-slate-100 dark:border-slate-800/50">
+        <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-sm flex flex-col h-full overflow-hidden hover:shadow-md transition-all">
+            <CardHeader className="pt-4 pb-2 px-4 border-b border-slate-100 dark:border-slate-800/50 shrink-0">
                 <div className="flex items-center justify-between">
                     <div>
                         <CardTitle className="text-lg font-bold text-slate-800 dark:text-slate-100">Goals & Streak</CardTitle>
@@ -70,20 +70,22 @@ export function GoalWidget({ goals: initialGoals, streakCount }: GoalWidgetProps
                     </div>
                 </div>
             </CardHeader>
-            <CardContent className="flex-1 space-y-6 pt-6">
+            <CardContent className="flex-1 overflow-hidden p-4">
                 {goals.length === 0 ? (
-                    <div className="text-center py-8 flex flex-col items-center justify-center space-y-3">
-                        <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-full">
-                            <Trophy className="w-8 h-8 text-slate-300 dark:text-slate-600" />
+                    <div className="h-full flex flex-col items-center justify-center gap-3">
+                        <div className="bg-slate-50 dark:bg-slate-800 p-2.5 rounded-full shrink-0">
+                            <Trophy className="w-5 h-5 text-slate-300 dark:text-slate-600" />
                         </div>
-                        <div>
-                            <p className="text-slate-700 dark:text-slate-200 font-medium">No active goals</p>
-                            <p className="text-xs text-slate-500 max-w-[200px] mx-auto mt-1">Create a goal to stay focused on your learning path.</p>
+                        <div className="text-center shrink-0">
+                            <p className="text-slate-700 dark:text-slate-200 font-medium text-sm">No active goals</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 max-w-[200px] mx-auto mt-0.5">Create a goal to stay focused.</p>
                         </div>
-                        <Button variant="outline" size="sm" onClick={() => setIsDialogOpen(true)} className="mt-2 text-indigo-600 border-indigo-100 hover:bg-indigo-50">Set Goal</Button>
+                        <Button onClick={() => setIsDialogOpen(true)} variant="outline" size="sm" className="h-8 text-xs shrink-0 border-dashed border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400">
+                            <Plus className="w-3.5 h-3.5 mr-1 text-slate-500 group-hover:text-indigo-500 dark:text-slate-400" /> Set First Goal
+                        </Button>
                     </div>
                 ) : (
-                    <div className="space-y-6">
+                    <div className="space-y-4">
                         {goals.map(goal => (
                             <div key={goal.id} className="group">
                                 <div className="flex items-center justify-between text-sm mb-2">
@@ -113,11 +115,13 @@ export function GoalWidget({ goals: initialGoals, streakCount }: GoalWidgetProps
                 )}
 
                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                    <DialogTrigger asChild>
-                        <Button className="w-full gap-2 mt-4" variant="outline" onClick={() => setIsDialogOpen(true)}>
-                            <Plus className="w-4 h-4" /> Add Goal
-                        </Button>
-                    </DialogTrigger>
+                    {goals.length > 0 && (
+                        <DialogTrigger asChild>
+                            <Button className="w-full gap-2 mt-4" variant="outline" onClick={() => setIsDialogOpen(true)}>
+                                <Plus className="w-4 h-4" /> Add Goal
+                            </Button>
+                        </DialogTrigger>
+                    )}
                     <DialogContent>
                         <DialogHeader>
                             <DialogTitle>Set a Learning Goal</DialogTitle>

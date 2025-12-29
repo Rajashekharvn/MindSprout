@@ -19,9 +19,19 @@ interface RecommendationsProps {
 }
 
 export function Recommendations({ recommendations }: RecommendationsProps) {
-    if (recommendations.length === 0) return null;
-
-    if (recommendations.length === 0) return null;
+    if (recommendations.length === 0) {
+        return (
+            <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-sm h-full flex flex-col justify-center items-center p-6 text-center text-balance">
+                <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-full mb-4 animate-pulse">
+                    <Sparkles className="w-6 h-6 text-indigo-500" />
+                </div>
+                <h3 className="font-semibold text-slate-800 dark:text-slate-200">No suggestions yet</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-[200px]">
+                    Complete more quizzes and resources to unlock personalized tips!
+                </p>
+            </Card>
+        );
+    }
 
     return (
         <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all">

@@ -5,13 +5,13 @@ import { CreatePathDialog } from "@/components/paths/CreatePathDialog";
 import { PathCard } from "@/components/paths/PathCard";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { BookOpen, CheckCircle, Search, Trophy, Zap, LayoutGrid, ArrowRight, Activity, BarChart2 } from "lucide-react";
+import { BookOpen, Search, Zap, LayoutGrid, ArrowRight, BarChart2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DashboardOverview } from "@/components/dashboard/DashboardOverview";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AnalyticsStats } from "@/components/dashboard/AnalyticsStats";
 import { AnalyticsDashboard } from "@/components/dashboard/AnalyticsDashboard";
-import { GoalWidget } from "@/components/dashboard/GoalWidget";
+
 import { Recommendations } from "@/components/dashboard/Recommendations";
 import { useSearchParams, useRouter } from "next/navigation";
 import { TrophyRoom } from "@/components/gamification/TrophyRoom";
@@ -19,7 +19,7 @@ import { Leaderboard } from "@/components/gamification/Leaderboard";
 
 interface DashboardViewProps {
     user: {
-        id: string; // Add ID
+        id: string;
         firstName: string | null;
         streakCount: number;
     };
@@ -59,16 +59,10 @@ export function DashboardView({ user, paths, analytics, goals, recommendations, 
 
     useEffect(() => {
         setMounted(true);
-        // Check for focus param
         if (searchParams.get("focus") === "search") {
-            // Small timeout to ensure render
             setTimeout(() => {
                 searchInputRef.current?.focus();
             }, 100);
-
-            // Allow cleaning up the URL without refresh if desired, 
-            // but for now keeping it simple or maybe using replace to remove param
-            // router.replace("/dashboard", { scroll: false });
         }
     }, [searchParams]);
 
@@ -234,40 +228,46 @@ export function DashboardView({ user, paths, analytics, goals, recommendations, 
                     )}
                 </TabsContent>
 
-                <TabsContent value="analytics" className="space-y-6 focus-visible:outline-none ring-offset-background">
+                <TabsContent value="analytics" className="space-y-6 focus-visible:outline-none ring-offset-background animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    {/* Top Row: Stats (Full Width) */}
                     <AnalyticsStats
                         quizAttempts={analytics.quizAttempts}
                         completedResources={analytics.completedResources}
                         streakCount={user.streakCount}
                     />
 
-                    <div className="space-y-6">
-                        <AnalyticsDashboard
-                            quizAttempts={analytics.quizAttempts}
-                            completedResources={analytics.completedResources}
-                        />
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <GoalWidget goals={goals} streakCount={user.streakCount} />
-                            <Recommendations recommendations={recommendations} />
-                        </div>
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                            <div className="lg:col-span-2">
-                                <TrophyRoom
-                                    achievements={gamification.achievements}
-                                    userAchievements={gamification.userAchievementIds}
+                    {/* Main Content Grid: 2 Columns */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        {/* Left Column (2/3 Width) */}
+                        <div className="lg:col-span-2 space-y-6">
+                            <TrophyRoom
+                                achievements={gamification.achievements}
+                                userAchievements={gamification.userAchievementIds}
+                            />
+                            <div className="h-[500px] overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+                                <AnalyticsDashboard
+                                    quizAttempts={analytics.quizAttempts}
+                                    completedResources={analytics.completedResources}
                                 />
                             </div>
-                            <div>
+
+                        </div>
+
+                        {/* Right Column (1/3 Width) */}
+                        <div className="space-y-6">
+                            <div className="h-[600px] sticky top-6">
                                 <Leaderboard
                                     users={gamification.leaderboard}
                                     currentUserId={user.id}
                                 />
                             </div>
+                            <div className="h-[250px]">
+                                <Recommendations recommendations={recommendations} />
+                            </div>
                         </div>
-
                     </div>
                 </TabsContent>
             </Tabs>
-        </div>
+        </div >
     );
 }

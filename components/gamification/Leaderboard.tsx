@@ -20,7 +20,7 @@ interface LeaderboardProps {
 
 export function Leaderboard({ users, currentUserId }: LeaderboardProps) {
     return (
-        <Card className="border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900">
+        <Card className="border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900 h-full flex flex-col">
             <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                     <Crown className="w-5 h-5 text-amber-500" />
@@ -30,7 +30,7 @@ export function Leaderboard({ users, currentUserId }: LeaderboardProps) {
                     Top learners this week.
                 </CardDescription>
             </CardHeader>
-            <CardContent className="px-0">
+            <CardContent className="px-0 flex-1 overflow-y-auto min-h-0">
                 <div className="space-y-1">
                     {users.map((user, index) => {
                         const rank = index + 1;

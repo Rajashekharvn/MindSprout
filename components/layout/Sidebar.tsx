@@ -98,7 +98,7 @@ export const Sidebar = ({ streakCount = 0, onHoverChange }: SidebarProps) => {
             {/* Sidebar Container */}
             <div
                 className={cn(
-                    "fixed inset-y-0 left-0 z-40 bg-slate-50 dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col transition-all duration-300 ease-in-out md:translate-x-0",
+                    "fixed inset-y-0 left-0 z-40 bg-slate-50 dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col transition-all duration-300 ease-in-out md:translate-x-0 overflow-hidden",
                     // Mobile behavior
                     isMobileOpen ? "translate-x-0 w-64 shadow-2xl" : "-translate-x-full",
                     // Desktop behavior (controlled by state)
@@ -139,8 +139,8 @@ export const Sidebar = ({ streakCount = 0, onHoverChange }: SidebarProps) => {
                                 >
                                     <route.icon className={cn("h-5 w-5 min-w-[20px]", isExpanded && "mr-4", route.color)} />
                                     <span className={cn(
-                                        "transition-opacity duration-300",
-                                        isExpanded ? "opacity-100" : "opacity-0"
+                                        "transition-all duration-300 overflow-hidden whitespace-nowrap",
+                                        isExpanded ? "opacity-100 max-w-[200px]" : "opacity-0 max-w-0"
                                     )}>
                                         {route.label}
                                     </span>
