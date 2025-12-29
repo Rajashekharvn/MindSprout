@@ -264,20 +264,7 @@ export function DashboardView({ user, paths, analytics, goals, recommendations, 
                                 />
                             </div>
                         </div>
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                            <div className="lg:col-span-2">
-                                <TrophyRoom
-                                    achievements={gamification.achievements}
-                                    userAchievements={gamification.userAchievementIds}
-                                />
-                            </div>
-                            <div>
-                                <Leaderboard
-                                    users={gamification.leaderboard}
-                                    currentUserId="current-user-id-placeholder" // We need the actual user ID here, likely from the 'user' prop if available, or passed separately
-                                />
-                            </div>
-                        </div>
+
                     </div>
                 </TabsContent>
             </Tabs>
