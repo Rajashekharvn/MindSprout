@@ -3,6 +3,7 @@
 import { db } from "@/lib/db";
 import { checkUser } from "@/lib/checkUser";
 import { revalidatePath } from "next/cache";
+import { awardXp, checkAchievements } from "@/lib/gamification";
 
 export async function saveQuizAttempt(
     quizId: string,
@@ -45,6 +46,15 @@ export async function saveQuizAttempt(
                     isCompleted: newProgress >= goal.target
                 }
             });
+        }
+
+        // Gamification: Award XP and check achievements
+        try {
+            const xpEarned = score * 10;
+            await awardXp(user.id, xpEarned);
+            await checkAchievements(user.id, "QUIZ_COMPLETED");
+        } catch (err) {
+            console.error("Gamification error:", err);
         }
 
         revalidatePath("/dashboard/paths/[pathId]");

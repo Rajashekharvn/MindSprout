@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { checkUser } from "@/lib/checkUser";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { awardXp, checkAchievements } from "@/lib/gamification";
 
 const CreatePathSchema = z.object({
     title: z.string().min(3, "Title must be at least 3 characters").max(100, "Title is too long"),
@@ -380,6 +381,15 @@ export async function toggleResourceCompletion(resourceId: string, isCompleted: 
                     isCompleted: newProgress >= goal.target
                 }
             });
+        }
+
+        // Gamification: Award XP and check achievements
+        try {
+            await awardXp(user.id, 50); // 50 XP for completing a resource
+            await checkAchievements(user.id, "RESOURCE_COMPLETED");
+            await checkAchievements(user.id, "STREAK_UPDATE");
+        } catch (err) {
+            console.error("Gamification error:", err);
         }
     }
 
