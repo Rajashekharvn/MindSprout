@@ -1,13 +1,23 @@
-import { checkUser } from "@/lib/checkUser";
-import { redirect } from "next/navigation";
+"use client";
 
-export default async function MyProfileRedirect() {
-    const user = await checkUser();
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-    if (!user) {
-        redirect("/sign-in");
-    }
+export default function MyProfileRedirect() {
+    const router = useRouter();
 
-    // Redirect to the user's actual profile page using their database ID
-    redirect(`/profile/${user.id}`);
+    useEffect(() => {
+        const userId = localStorage.getItem("userId");
+        if (userId) {
+            router.push(`/profile/${userId}`);
+        } else {
+            router.push("/login");
+        }
+    }, [router]);
+
+    return (
+        <div className="flex h-full items-center justify-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500"></div>
+        </div>
+    );
 }

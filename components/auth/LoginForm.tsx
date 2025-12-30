@@ -28,7 +28,8 @@ export function LoginForm() {
         try {
             const { data } = await api.post<AuthResponse>("/login", formData)
             localStorage.setItem("token", data.token)
-            localStorage.setItem("userEmail", formData.email) // Simple way to store user info if token decode not implemented
+            localStorage.setItem("userId", data.userId)
+            localStorage.setItem("userEmail", formData.email)
             toast.success("Login successful!")
             router.push("/dashboard")
         } catch (error: any) {
