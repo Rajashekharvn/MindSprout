@@ -11,5 +11,5 @@ export interface AuthResponse {
 
 export interface SignupResponse {
     message: string;
-    userId: number;
+    userId: string;
 }
