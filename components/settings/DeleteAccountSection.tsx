@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { useClerk } from "@clerk/nextjs";
+// import { useClerk } from "@clerk/nextjs"; // Removed Clerk
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,7 +19,7 @@ import { deleteAccount } from "@/lib/actions";
 export function DeleteAccountSection() {
     const [isLoading, setIsLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    const { signOut } = useClerk();
+    // const { signOut } = useClerk(); // Removed Clerk
     const router = useRouter();
 
     const handleDelete = async () => {
@@ -27,7 +27,10 @@ export function DeleteAccountSection() {
         try {
             await deleteAccount();
             toast.success("Account deleted successfully");
-            await signOut(() => router.push("/sign-in"));
+            // Custom SignOut
+            localStorage.removeItem("token");
+            localStorage.removeItem("userEmail");
+            router.push("/login");
         } catch (error: any) {
             toast.error(error.message || "Failed to delete account");
             setIsLoading(false);

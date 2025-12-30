@@ -1,5 +1,5 @@
-import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
+// import { auth } from "@clerk/nextjs/server"; // Removed Clerk
+// import { redirect } from "next/navigation";
 
 import { Navbar } from "@/components/landing/Navbar";
 import { Hero } from "@/components/landing/Hero";
@@ -10,11 +10,11 @@ import { db } from "@/lib/db";
 import { PopularPaths } from "@/components/landing/PopularPaths";
 
 export default async function Home() {
-  const { userId } = await auth();
+  // const { userId } = await auth();
 
-  if (userId) {
-    redirect("/dashboard");
-  }
+  // if (userId) {
+  //   redirect("/dashboard");
+  // }
 
   // Fetch Popular Paths (Dynamic Content)
   const popularPaths = await db.learningPath.findMany({

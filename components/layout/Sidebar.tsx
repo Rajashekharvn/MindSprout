@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
-import { useAuth } from "@clerk/nextjs";
+// import { useAuth } from "@clerk/nextjs"; // Removed Clerk
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { NotificationBell } from "@/components/layout/NotificationBell";
 import { UserButtonWrapper } from "@/components/layout/UserButtonWrapper";
@@ -56,7 +56,7 @@ export const Sidebar = ({ streakCount = 0, onHoverChange }: SidebarProps) => {
     const pathname = usePathname();
     const [isMobileOpen, setIsMobileOpen] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
-    const { userId } = useAuth();
+    // const { userId } = useAuth(); // Removed Clerk
 
     // Derived state for expanded view (Mobile Open OR Desktop Hover)
     const isExpanded = isMobileOpen || isHovered;
@@ -72,9 +72,10 @@ export const Sidebar = ({ streakCount = 0, onHoverChange }: SidebarProps) => {
     };
 
     // Update profile link with actual user ID if available
+    // Update profile link with actual user ID if available
     const navRoutes = routes.map(route =>
-        route.label === "My Profile" && userId
-            ? { ...route, href: `/profile/${userId}` }
+        route.label === "My Profile"
+            ? { ...route, href: `/profile/me` } // Default to /me, handle in page
             : route
     );
 

@@ -1,9 +1,10 @@
 import { cache } from "react";
-import { currentUser } from "@clerk/nextjs/server";
+// import { currentUser } from "@clerk/nextjs/server"; // Removed Clerk
 import { db } from "@/lib/db";
 
 export const checkUser = cache(async () => {
-    const user = await currentUser();
+    // Mock User or Return Null (Server Actions require refactor for Java Backend)
+    const user = null; // await currentUser();
 
     if (!user) {
         return null;
