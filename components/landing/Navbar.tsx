@@ -33,12 +33,12 @@ export function Navbar() {
         {/* Actions */}
         <div className="flex items-center gap-8">
           <Link
-            href="/sign-in"
+            href="/login"
             className="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white transition-colors duration-200"
           >
             Log in
           </Link>
-          <Link href="/sign-up">
+          <Link href="/signup">
             <Button className="h-10 rounded-full px-6 bg-black text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-slate-200 font-semibold transition-all hover:scale-105 shadow-[0_0_20px_-5px_rgba(0,0,0,0.1)] dark:shadow-[0_0_20px_-5px_rgba(255,255,255,0.3)]">
               Get Started
             </Button>
