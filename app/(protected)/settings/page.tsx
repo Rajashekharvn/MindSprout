@@ -6,7 +6,7 @@ export default async function SettingsPage() {
     const user = await checkUser();
 
     if (!user) {
-        redirect("/sign-in");
+        redirect("/login");
     }
 
     return <SettingsClientWrapper />;

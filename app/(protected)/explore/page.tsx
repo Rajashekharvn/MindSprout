@@ -7,7 +7,7 @@ export default async function ExplorePage() {
     const user = await checkUser();
 
     if (!user) {
-        return redirect("/sign-in");
+        return redirect("/login");
     }
 
     return <ExploreClientWrapper />;

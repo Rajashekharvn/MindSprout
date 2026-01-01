@@ -8,7 +8,7 @@ export default async function DashboardPage() {
   const user = await checkUser();
 
   if (!user) {
-    return redirect("/sign-in");
+    return redirect("/login");
   }
 
   // Parallel Data Fetching

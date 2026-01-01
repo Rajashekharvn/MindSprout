@@ -7,7 +7,7 @@ import { QuizView } from "@/components/quiz/QuizView";
 
 export default async function QuizPage({ params }: { params: Promise<{ pathId: string }> }) {
     const user = await checkUser();
-    if (!user) return redirect("/sign-in");
+    if (!user) return redirect("/login");
 
     const { pathId } = await params;
 

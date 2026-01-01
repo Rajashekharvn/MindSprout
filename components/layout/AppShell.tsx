@@ -7,7 +7,7 @@ export async function AppShell({ children }: { children: React.ReactNode }) {
     const user = await checkUser();
 
     if (!user) {
-        redirect("/sign-in");
+        redirect("/login");
     }
 
     const streakCount = user ? user.streakCount : 0;

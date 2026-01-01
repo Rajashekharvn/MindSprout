@@ -30,6 +30,8 @@ export function LoginForm() {
             localStorage.setItem("token", data.token)
             localStorage.setItem("userId", data.userId)
             localStorage.setItem("userEmail", formData.email)
+            // Set cookie for server-side access (middleware/actions)
+            document.cookie = `token=${data.token}; path=/; max-age=86400; SameSite=Strict`
             toast.success("Login successful!")
             router.push("/dashboard")
         } catch (error: any) {

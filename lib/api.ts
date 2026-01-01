@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Use Environment Variable for API URL via Next.js Public Env
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://mindsprout-backend.onrender.com/api/auth';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8081/api/auth';
 
 const api = axios.create({
     baseURL: API_URL,

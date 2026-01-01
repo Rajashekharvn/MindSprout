@@ -13,7 +13,7 @@ import { getPathDetails } from "@/lib/actions";
 
 export default async function PathDetailPage({ params }: { params: Promise<{ pathId: string }> }) {
     const user = await checkUser();
-    if (!user) return redirect("/sign-in");
+    if (!user) return redirect("/login");
 
     const { pathId } = await params;
 
