@@ -572,6 +572,87 @@ export async function togglePathStar(pathId: string) {
     }
 }
 
+export async function getUserProfile(userId: string) {
+    // 1. Fetch User from Java Backend
+    let user = null;
+    try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8081/api/auth";
+        // The backend endpoint is /api/users/{id}. checkUser.ts uses /api/users/me -> this is different.
+        // We need to construct the URL correctly.
+        // NEXT_PUBLIC_API_URL usually points to .../api/auth. We need .../api/users/{id}
+        // So we replace /auth with /users/${userId}
+        const userApiUrl = apiUrl.replace("/auth", `/users/${userId}`);
+
+        const res = await fetch(userApiUrl, { cache: "no-store" });
+        if (res.ok) {
+            user = await res.json();
+            // Map backend fields to frontend interface if needed (like name -> firstName)
+            // The Java User model has: name, email, id.
+            // Frontend User expects: id, firstName, lastName, ...
+            if (user && user.name) {
+                const parts = user.name.split(" ");
+                user.firstName = parts[0];
+                user.lastName = parts.slice(1).join(" ") || "";
+            }
+        }
+    } catch (error) {
+        console.error("Failed to fetch user from backend:", error);
+    }
+
+    if (!user) return null;
+
+    // 2. Fetch related data from Prisma (using the same userId)
+    // Note: We authenticate current user to check following status/private access
+    const currentUser = await checkUser();
+
+    // Stats (XP, etc) - For now, these might be 0 for new users or we need to sync/store them in Java later.
+    // Assuming we still use the 'userId' string in Prisma tables (LearningPath, etc) even if User table is empty/unused in Prisma.
+    // Actually, if Foreign Keys exist in Prisma, this might fail if the User doesn't exist in Postgres.
+    // If we removed the User model or Relation from Prisma, we are good.
+    // If we didn't, we might need to "upsert" a shadow user in Postgres or ignore FKs.
+    // Assuming for now we just query tables directly by userId string.
+
+    const paths = await db.learningPath.findMany({
+        where: { userId: userId, isPublic: true },
+        include: { _count: { select: { resources: true } } }
+    });
+
+    const followersCount = await db.follows.count({ where: { followingId: userId, isAccepted: true } });
+    const followingCount = await db.follows.count({ where: { followerId: userId, isAccepted: true } });
+
+    // Check if current user is following
+    let isFollowing = false;
+    let hasRequested = false;
+
+    if (currentUser) {
+        const follow = await db.follows.findUnique({
+            where: {
+                followerId_followingId: {
+                    followerId: currentUser.id,
+                    followingId: userId
+                }
+            }
+        });
+        if (follow) {
+            isFollowing = follow.isAccepted;
+            hasRequested = !follow.isAccepted;
+        }
+    }
+
+    return {
+        user,
+        stats: {
+            followers: followersCount,
+            following: followingCount,
+            xp: 0, // Java backend doesn't send XP yet, defaulting to 0
+            streak: 0
+        },
+        paths,
+        isFollowing,
+        hasRequested,
+        isPrivate: user.isPrivate || false // Java model might not have this, default false
+    };
+}
 export async function getPathDetails(pathId: string) {
     const user = await checkUser();
 
