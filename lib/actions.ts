@@ -907,70 +907,7 @@ export async function deleteAllNotifications() {
     revalidatePath("/dashboard");
 }
 
-export async function getUserProfile(userId: string) {
-    // Current user context still useful for "isFollowing" logic, but backend handles data fetching
-    const currentUser = await checkUser();
 
-    // Fetch profile data from Backend API
-    try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                // Add Authorization header if needed, but for public profiles maybe not? 
-                // However, our backend implementation enforces privacy at app level? 
-                // Actually, backend currently just returns user. 
-                // For now, let's just fetch the raw user. 
-            },
-            cache: 'no-store'
-        });
-
-        if (!response.ok) {
-            if (response.status === 404) return null;
-            throw new Error(`Failed to fetch profile: ${response.statusText}`);
-        }
-
-        const user = await response.json();
-
-        // TRANSFORM Backend User to Frontend Structure
-        // Backend returns raw User object. We need to construct the { user, stats, paths } shape expected by the UI.
-
-        // Mocking stats for now as backend controller only returns "User" entity without aggregated stats
-        // In a real migration, Backend DTO should include stats.
-        const stats = {
-            followers: 0, // TODO: Add stats endpoint in backend
-            following: 0,
-            paths: 0,
-            stars: 0
-        };
-
-        // Mocking paths array
-        // TODO: Add endpoint to fetch user's paths
-        const paths: any[] = [];
-
-        // Privacy Logic (Simplified for now - can be moved to backend later)
-        const isPrivate = user.isPrivate;
-        let isFollowing = false; // Need separate API to check follow status
-        let hasRequested = false;
-
-        return {
-            user: {
-                ...user,
-                // Ensure ID is string
-                id: user.id
-            },
-            stats,
-            paths, // Public or allowed paths
-            isFollowing,
-            hasRequested,
-            isPrivate,
-        };
-
-    } catch (error) {
-        console.error("Error fetching user profile from API:", error);
-        return null;
-    }
-}
 
 export async function getFollowers(userId: string) {
     const followers = await db.follows.findMany({
