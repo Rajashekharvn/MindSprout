@@ -32,7 +32,9 @@ export function SignupForm() {
             // Redirect to verify page with email
             router.push(`/verify?email=${encodeURIComponent(formData.email)}`)
         } catch (error: any) {
-            toast.error(error.response?.data?.error || "Signup failed")
+            console.error("Signup Error:", error);
+            const errorMessage = error.response?.data?.error || error.message || "Signup failed";
+            toast.error(`Error: ${errorMessage}`);
         } finally {
             setIsLoading(false)
         }
