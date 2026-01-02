@@ -612,13 +612,19 @@ export async function getUserProfile(userId: string) {
     // If we didn't, we might need to "upsert" a shadow user in Postgres or ignore FKs.
     // Assuming for now we just query tables directly by userId string.
 
-    const paths = await db.learningPath.findMany({
+    // Fetch Public Paths and count their stars
+    const pathsData = await db.learningPath.findMany({
         where: { userId: userId, isPublic: true },
-        include: { _count: { select: { resources: true } } }
+        include: {
+            _count: { select: { resources: true, stars: true } }
+        }
     });
 
     const followersCount = await db.follows.count({ where: { followingId: userId, isAccepted: true } });
     const followingCount = await db.follows.count({ where: { followerId: userId, isAccepted: true } });
+
+    // Calculate total stars across all paths
+    const totalStars = pathsData.reduce((acc: number, path: any) => acc + (path._count.stars || 0), 0);
 
     // Check if current user is following
     let isFollowing = false;
@@ -644,10 +650,10 @@ export async function getUserProfile(userId: string) {
         stats: {
             followers: followersCount,
             following: followingCount,
-            xp: 0, // Java backend doesn't send XP yet, defaulting to 0
-            streak: 0
+            paths: pathsData.length,
+            stars: totalStars
         },
-        paths,
+        paths: pathsData,
         isFollowing,
         hasRequested,
         isPrivate: user.isPrivate || false // Java model might not have this, default false
