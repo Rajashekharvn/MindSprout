@@ -21,7 +21,14 @@ export const checkUser = cache(async (): Promise<User | null> => {
     }
 
     try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/auth', '/users/me') || 'http://localhost:8081/api/users/me';
+        let baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8081/api/auth";
+        if (baseUrl.endsWith('/auth')) {
+            baseUrl = baseUrl.substring(0, baseUrl.length - 5);
+        }
+        if (baseUrl.endsWith('/')) {
+            baseUrl = baseUrl.substring(0, baseUrl.length - 1);
+        }
+        const apiUrl = `${baseUrl}/users/me`;
         const response = await fetch(apiUrl, {
             headers: {
                 'Authorization': `Bearer ${token.value}`

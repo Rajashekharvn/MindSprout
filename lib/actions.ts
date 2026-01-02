@@ -576,12 +576,17 @@ export async function getUserProfile(userId: string) {
     // 1. Fetch User from Java Backend
     let user = null;
     try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8081/api/auth";
-        // The backend endpoint is /api/users/{id}. checkUser.ts uses /api/users/me -> this is different.
-        // We need to construct the URL correctly.
-        // NEXT_PUBLIC_API_URL usually points to .../api/auth. We need .../api/users/{id}
-        // So we replace /auth with /users/${userId}
-        const userApiUrl = apiUrl.replace("/auth", `/users/${userId}`);
+        // Robust URL construction
+        // Ensure we always target /api/users/{userId} regardless of whether NEXT_PUBLIC_API_URL ends in /auth
+        let baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8081/api/auth";
+        if (baseUrl.endsWith('/auth')) {
+            baseUrl = baseUrl.substring(0, baseUrl.length - 5);
+        }
+        // Remove trailing slash if present
+        if (baseUrl.endsWith('/')) {
+            baseUrl = baseUrl.substring(0, baseUrl.length - 1);
+        }
+        const userApiUrl = `${baseUrl}/users/${userId}`;
 
         const res = await fetch(userApiUrl, { cache: "no-store" });
         if (res.ok) {
